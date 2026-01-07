@@ -1,0 +1,5 @@
+# the files and folders to exclude
+
+node_modules
+
+.env

@@ -1,0 +1,25 @@
+{
+  "expo": {
+    // ... other configurations
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/custom-splash.png",
+          "backgroundColor": "#FFFFFF",
+          "resizeMode": "contain",
+          "dark": {
+            "image": "./assets/images/custom-splash-dark.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
+    // ... other configurations
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    }
+  }
+}
