@@ -2,9 +2,9 @@
   "expo": {
     "name": "GreenFarm",
     "slug": "GreenFarm",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/app_assets/icon.png",
     "scheme": "greenfarm",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,35 +14,44 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
-        "foregroundImage": "./assets/app_assets/splash.png",
-        "backgroundImage": "./assets/app_assets/splash.png",
-        "monochromeImage": "./assets/app_assets/splash.png"
+        "foregroundImage": "./assets/app_assets/icon.png",
+        "backgroundImage": "./assets/app_assets/icon.png",
+        "monochromeImage": "./assets/app_assets/icon.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.fahcodcode.GreenFarm"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/app_assets/icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/app_assets/splash.png",
+          "image": "./assets/app_assets/icon.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#ffffff"
           }
         }
       ],
-      "expo-video"
+      "expo-video",
+      "expo-sqlite",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c4d5769a-de16-45b1-9f36-bd8f1c781c14"
+      }
     }
   }
 }
