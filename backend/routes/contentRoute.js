@@ -7,11 +7,11 @@ import { createContent, deleteContent, fetchAllArticles,
 
 const contentRouter = express.Router();
 
-contentRouter.post('/create',protectRoute,restrictTo(["admin","expert"]),
+contentRouter.post('/create',protectRoute,restrictTo(["admin"]),
 validateContentData,createContent);
 contentRouter.get('/articles',fetchAllArticles);
 contentRouter.get('/latest-videos',fetchLatestVideos);
-contentRouter.delete('/delete/:contentId',protectRoute,restrictTo(["admin","expert"]),
+contentRouter.delete('/delete/:contentId',protectRoute,restrictTo(["admin"]),
 deleteContent)
 
 export default contentRouter;

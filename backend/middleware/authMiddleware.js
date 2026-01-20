@@ -7,7 +7,7 @@ const protectRoute = async (req,res,next) =>{
     // get the token from the headers
     const tokenData = req.headers.authorization;
     if(!tokenData.startsWith('Bearer')){
-        return res.status(404).json({message:"Token not found!"})
+        return res.status(401).json({message:"Token not found!"})
     }
     // if the tokenData exists, extract the actual access token, the decode it
     const token = tokenData.split(' ')[1];

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
-import {connectDB} from "./config/db.js"
+import { connectDB } from "./config/db.js"
 import { errorHandler } from "./middleware/errorHandler.js";
 import authRouter from "./routes/authRoute.js";
 import storeRouter from "./routes/storeRoute.js";
@@ -36,7 +36,11 @@ app.use(rateLimit({
 
 // logging for better debugging, and then the global error handler
 app.use(morgan("dev"));
-app.use(errorHandler)
+app.use(errorHandler);
+
+app.get('/',(req,res)=>{
+    res.status(200).json({message:"Server is running"})
+})
 
 // mount the API routers
 app.use('/api/v1/auth',authRouter);

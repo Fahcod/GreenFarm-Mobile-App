@@ -6,9 +6,9 @@ import { answerQuestion, deleteAnswer, fetchAnswers } from "../controllers/answe
 
 const answerRouter = express.Router();
 
-answerRouter.post('/add/:questionId',protectRoute,restrictTo(["farmer","expert"]),answerQuestion);
+answerRouter.post('/add/:questionId',protectRoute,restrictTo(["farmer"]),answerQuestion);
 answerRouter.get('/fetch',fetchAnswers);
-answerRouter.delete('/delete/:answerId',protectRoute,restrictTo(["farmer","expert"]),
+answerRouter.delete('/delete/:answerId',protectRoute,restrictTo(["farmer"]),
 deleteAnswer
 )
 
