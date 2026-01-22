@@ -1,43 +1,34 @@
 
 services:
-  
-  server:
+   
+   server:
+      build: .
+
+      ports:
+       - "7500:7500"
+      
+      environment:
+          MONGO_URI: mongodb://db:27017/FarmingApp
+          PORT: 7500
+          ACCESS_TOKEN_SECRET: bde6d7-89gbde-809ueb-bb46d-ebabe4-ebdae8-669fg-ajhb
+          REFRESH_TOKEN_SECRET: bde6d7-67baded-869db-obf36-eba98-7ef4-98bdef-87ebda
+
+      depends_on:
+        -db
+      
+      volumes:
+        - ./:/usr/src/app
+
+   db:
      
-     depends_on: 
-       - db
-     
-     build: ./
-
-     ports:
-     - "7500:7500"
-     
-     environment:
-         MONGO_URI: mongodb://127.0.0.1:27017/FarmingApp
-         PORT: 7500
-         ACCESS_TOKEN_SECRET: bde6d7-89gbde-809ueb-bb46d-ebabe4-ebdae8-669fg-ajhb
-         REFRESH_TOKEN_SECRET: bde6d7-67baded-869db-obf36-eba98-7ef4-98bdef-87ebda
-
-     develop:
-         watch:
-           - path: ./package.json
-             action: rebuild
-           - path: ./package-lock.json
-             action: rebuild
-           - path: ./
-             target: /usr/src/app
-             action: sync
-
-  db:
-
-    image: mongo:7
-    ports:
-      - "27017:27017"
-    
-    volumes:
-      - greeenfarm:/data/db
+     image: mongo:7
+     volumes: 
+     - greenfarm:/data/db
 
 volumes:
-      greeenfarm:
+  greenfarm:
 
+
+      
 
 
