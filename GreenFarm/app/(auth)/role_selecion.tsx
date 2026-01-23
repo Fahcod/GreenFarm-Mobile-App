@@ -11,7 +11,7 @@ const role_selecion = () => {
     {/* this is the page where the users will select their roles */}
     <View className='flex-1 pt-24 flex flex-col items-center'>
     <View className='w-full px-5'>
-    <Text className='font-bold text-center text-lg'>Hi there, who are you?</Text>
+    <Text className='font-bold text-center text-lg'>Hi welcome, who are you?</Text>
     <Text className='text-[#454545] text-sm text-center'>To get the best of our services, you will select who you are, to let us know how to serve you</Text>
     </View>
     

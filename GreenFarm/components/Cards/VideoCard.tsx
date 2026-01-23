@@ -5,23 +5,30 @@ import { router } from 'expo-router';
 
 const VideoCard = (props:any) => {
   return (
-<Pressable onPress={()=>router.push('/(screens)/watch/8765678' as any)} className='w-full relative mt-6'>
-{/* the overlay, play icon container */}
-<View className='w-full flex items-center justify-center absolute top-0 z-[100] bg-[#0000000e] h-[170px]'>
+<Pressable onPress={()=>router.push('/(screens)/watch/8765678' as any)} className='w-full p-3 mt-4 rounded-md shadow-md bg-white'>
+<View className='relative'>
+<Image className='rounded-md' style={{width:'100%',height:160}} source={props.thumbnail}/>
+{/* the overlay */}
+<View className='w-full flex flex-col justify-between items-center absolute top-0 h-[160px] rounded-md'>
+{/* the top  container for the mute icon */}
+<View></View>
 {/* the play icon */}
-<View className='bg-[#000000a8] px-3 py-1 rounded-md'>
-<FontAwesome6 color={'#fff'} size={20} name={'play'}/>
+<View className='bg-[#00000096] px-5 mt-6 py-1 rounded-md'>
+<FontAwesome6 size={18} color={'#fff'} name={'play'}/>
 </View>
-{/* the video duration container */}
-<View className='bg-[#000000a8] absolute right-2 bottom-2 px-2 rounded-lg'>
-<Text className='text-white text-sm'>23:05</Text>
+{/* the video duration */}
+<View className='w-full p-3 flex flex-row justify-end'>
+<Text className='text-white bg-[#00000096] rounded-md px-2'>12:00</Text>
 </View>
 </View>
-<Image className='rounded-md' style={{width:'100%', height:170}} source={props.thumbnail}/>
-{/* the video details */}
+</View>
+{/* the title and description container */}
 <View className='w-full'>
-<Text numberOfLines={2} className='font-bold'>{props.title}</Text>
-<Text className='text-sm text-[#454545]'>23hr ago • 4m views</Text>
+<Text numberOfLines={2} className='font-bold text-[#303030]'>{props.title}</Text>
+<Text numberOfLines={2} className='text-sm pt-1 text-[#454545]'>{props.description}</Text>
+</View>
+<View className='w-full flex flex-row items-center justify-between'>
+<Text className='text-[#454545] text-xs pt-3'>120 views • 2w ago</Text>
 </View>
 </Pressable>
   )

@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-nativ
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
+import { Link } from 'expo-router';
 
 const signup = () => {
   return (
@@ -27,7 +28,7 @@ const signup = () => {
     <View>
     <TextInput
     placeholder='Your name'
-    className='w-full p-4 rounded-md border-solid border border-gray-200'
+    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
     value={values.name}
     onChangeText={handleChange('name')}
     onBlur={handleBlur('name')}
@@ -38,7 +39,7 @@ const signup = () => {
     <View>
     <TextInput
     placeholder='Your email'
-    className='w-full p-4 rounded-md border-solid border border-gray-200'
+    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
     value={values.email}
     onChangeText={handleChange('email')}
     onBlur={handleBlur('email')}
@@ -50,7 +51,7 @@ const signup = () => {
     <View>
     <TextInput
     placeholder='Your password'
-    className='w-full p-4 rounded-md border-solid border border-gray-200'
+    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
     value={values.password}
     onChangeText={handleChange('password')}
     onBlur={handleBlur('password')}
@@ -60,10 +61,11 @@ const signup = () => {
     </View>
 
     <View>
-    <TouchableOpacity className='w-full p-4 rounded-md bg-primary-300'>
-    <Text className='text-white text-lg text-center'>Continue</Text>
+    <TouchableOpacity className='w-full px-3 flex flex-row justify-center items-center h-[55px] rounded-md bg-primary-300'>
+    <Text className='text-white text-lg'>Continue</Text>
     </TouchableOpacity>
-    <Text className='text-sm text-[#454545] pt-1'>Aleady have an account? Login</Text>
+    <Text className='text-sm text-[#454545] pt-2'>Aleady have an account? 
+    <Link className='text-blue-500' href="/(auth)/login"></Link>Login</Text>
     </View>
 
     </View>

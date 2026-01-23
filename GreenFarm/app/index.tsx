@@ -5,7 +5,7 @@ export default function Index() {
   const role = "business"; // try "business" too
 
   if (role === "business") {
-    return <Redirect href={"/(business)/" as any} />;
+    return <Redirect href={"/(farmer)/" as any} />;
   } else {
     return <Redirect href={"/(farmer)/" as any} />;
   }

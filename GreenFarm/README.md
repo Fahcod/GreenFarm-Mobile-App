@@ -1,50 +1,43 @@
-# Welcome to your Expo app 👋
+## Welcome to GreenFarm Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+GreenFarm is a platform that provides farmers with farming tips through videos in
+local languages and through articles. It is free to farmers, and it has been made free for them
+in order to make it easy for all farmers to access without needing to first pay.
 
-## Get started
+Therefore, farmers can create free accounts and use the app to learn new skills or improve on
+those that they have. However, the near future the paid `PRO` plan will be introduced and it will come along with greater features and farmers will have to first pay something in order to access these features
 
-1. Install dependencies
+# GreenFarm Marketplace
 
-   ```bash
-   npm install
-   ```
+Greenfarm is also an online marketplace for Agri-businesses that need to advertise and sell their
+products to a larger audience. Therefore, these businesses can create stores in the app and add products which can be seen by all farmers on the platform and these farmers can then buy the products basing on their need. However, these stores are paid for monthly and for now, there is only one plan but in the future, as the platform  grows, more plans will come in and they will vary depending on the features and the functionality
 
-2. Start the app
+## The Tech stack
+The frontend of this application has been built with `ReactNtive/Expo`, and the backend has been built with `Node.js/Express` and then `MongoDB` as the database.For the styling, `Nativewind` has been used for efficiency and fast styling. This project is built also on top of `Typescript` 
+for type safety. For state management, `Redux Toolkit` has been used. For realtime functionality, `Socket.io` has been used here.
 
-   ```bash
-   npx expo start
-   ```
+# All tools used for Fullstack development
+1. ReactNative
+2. Node.js
+3. Expo
+4. Express.js
+5. Nativewind
+6. Redux toolkit
+7. Socket.io
+8. MongoDB
+9. Redis (for caching )
+10. Typescript
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## How to run the Frontend:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+# Step 1:
+Make sure you have Node.js installed on your machine, then clone the
+ project from the Github Repo
 
-## Get a fresh project
+# Step 2:
+Open your terminal and run `npm install`, to install the project dependencies
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# Step 3:
+After the dependencies have been installed, run `npx expo start` in order to start the app and
+you will be provided with a `QR` code that you can scan and run the app righ there on your device but you must have the `Expo Go` application on your mobile phone. Or else if you have Android Studio, you can just type `a` in your terminal in order to open your app in an emulator

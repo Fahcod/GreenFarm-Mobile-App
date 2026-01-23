@@ -54,7 +54,7 @@ const storeDetails = () => {
       <Text className='font-bold text-lg'>KF Agri tool Suppliers</Text>
       <Text className='text-[#454545] leading-1 text-md'>Dealers in: Water pumps, tractors, Graden tools</Text>
       {/* the store location */}
-      <View className='flex flex-row items-center gap-2'>
+      <View className='flex flex-row items-center mt-3 gap-2'>
       <FontAwesome6 color={'#454545'} size={16} name={'location-dot'}/>
       <Text className='text-[#454545] text-sm'>Uganda, Kampala-Ntinda</Text>
       </View>

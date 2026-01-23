@@ -7,6 +7,12 @@
     "icon": "./assets/app_assets/icon.png",
     "scheme": "greenfarm",
     "userInterfaceStyle": "automatic",
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "url": "https://u.expo.dev/c4d5769a-de16-45b1-9f36-bd8f1c781c14"
+    },
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
@@ -52,6 +58,9 @@
       "eas": {
         "projectId": "c4d5769a-de16-45b1-9f36-bd8f1c781c14"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

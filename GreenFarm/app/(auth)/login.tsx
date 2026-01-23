@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-nativ
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
+import { Link } from 'expo-router';
 
 const login = () => {
   return (
@@ -12,13 +13,13 @@ const login = () => {
       alignItems:'center',
       justifyContent:'center'
     }}>
-    {/* This is the login page for the users */}
+    {/* This is the register page for the users */}
     <View className='mt-12'>
     <Text className='font-bold text-center text-lg'>Login here</Text>
     </View>
 
     <Formik
-    initialValues={{name:"",email:"",password:"",role:"farmer"}}
+    initialValues={{name:"",email:"",password:""}}
     onSubmit={(values)=>{}}
     >
     {({errors,handleBlur,handleSubmit,handleChange,touched,values})=>(
@@ -27,7 +28,7 @@ const login = () => {
     <View>
     <TextInput
     placeholder='Your email'
-    className='w-full p-4 rounded-md border-solid border border-gray-200'
+    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
     value={values.email}
     onChangeText={handleChange('email')}
     onBlur={handleBlur('email')}
@@ -39,7 +40,7 @@ const login = () => {
     <View>
     <TextInput
     placeholder='Your password'
-    className='w-full p-4 rounded-md border-solid border border-gray-200'
+    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
     value={values.password}
     onChangeText={handleChange('password')}
     onBlur={handleBlur('password')}
@@ -49,10 +50,11 @@ const login = () => {
     </View>
 
     <View>
-    <TouchableOpacity className='w-full p-4 rounded-md bg-primary-300'>
-    <Text className='text-white text-lg text-center'>Continue</Text>
+    <TouchableOpacity className='w-full px-3 flex flex-row justify-center items-center h-[55px] rounded-md bg-primary-300'>
+    <Text className='text-white text-lg'>Continue</Text>
     </TouchableOpacity>
-    <Text className='text-sm text-[#454545] pt-1'> have Don'tan account? Signup</Text>
+    <Text className='text-sm text-[#454545] pt-1'>Don't have an account? 
+    <Link href="/(auth)/signup">Register</Link></Text>
     </View>
 
     </View>

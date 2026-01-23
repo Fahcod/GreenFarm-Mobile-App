@@ -4,6 +4,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { all_products } from '@/constants/data';
 import MarketplaceItem from '../Cards/MarketplaceItem';
 import { router } from 'expo-router';
+import HorizontalRule from '../HorizontalRule';
 
 const SuggestedProducts = () => {
   return (
@@ -22,8 +23,9 @@ const SuggestedProducts = () => {
    horizontal={true}
    bounces={false}
    renderItem={({item})=><MarketplaceItem {...item}/>}
-   contentContainerStyle={{gap:10,marginBottom:30}}
+   contentContainerStyle={{gap:10}}
    showsHorizontalScrollIndicator={false}
+   ListFooterComponent={<><HorizontalRule mt={2}/></>}
    />
     </>
   )

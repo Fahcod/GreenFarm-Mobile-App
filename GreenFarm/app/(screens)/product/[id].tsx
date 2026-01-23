@@ -46,13 +46,29 @@ const productDetails = () => {
         paddingBottom:35,
     }}
     ListHeaderComponent={<>
-    {/* the product images */}
+    {/* the product main image */}
     <View className='w-full'>
-    <Image resizeMode='cover' className='rounded-md' style={{width:'100%',height:190}} source={images.tractor_3}/>
+    <Image resizeMode='cover' className='rounded-md' style={{width:'100%',height:190}} source={images.pump_1}/>
+    </View>
+    {/* the product images */}
+    <View className='w-full flex gap-3 flex-row pt-2'>
+    <Image className='rounded-md' source={images.pump_1} style={{width:65,height:65}}/>
+    <Image className='rounded-md' source={images.pump_1} style={{width:65,height:65}}/>
     </View>
     {/* the product details */}
     <View className='w-full pt-3'>
     <Text className='font-bold text-lg'>Brand new Ft-24 Tractor</Text>
+    {/* the product rating */}
+    <View className='flex flex-row gap-3 items-center'>
+    <View className='flex flex-row gap-1'>
+     <FontAwesome6 color={'#f0bc13'} size={13} name={'star'} solid/>
+     <FontAwesome6 color={'#f0bc13'} size={13} name={'star'} solid/>
+     <FontAwesome6 color={'#f0bc13'} size={13} name={'star'} solid/>
+     <FontAwesome6 color={'#f0bc13'} size={13} name={'star'} solid/>
+     <FontAwesome6 color={'#f0bc13'} size={13} name={'star'} solid/>
+    </View>
+    <Text className='text-[#454545]'>(234 reviews)</Text>
+    </View>
     <View className='w-full gap-4 pt-2 flex flex-row items-center'>
     <Text className='font-black text-2xl'>UGX 2310000</Text>
     <Text className='text-[#454545]'>(Tools)</Text>
@@ -72,8 +88,8 @@ const productDetails = () => {
     <HorizontalRule mt={14}/>
     <View className='w-full flex mt-4 flex-row gap-2'>
     
-    <TouchableOpacity className='flex bg-[#d8a80a] px-3 py-3 rounded-md flex-row items-center w-[48%]'>
-    <Text className='text-center w-full'>Buy now</Text>
+    <TouchableOpacity className='flex bg-primary-300 px-3 py-3 rounded-md flex-row items-center w-[48%]'>
+    <Text className='text-center w-full text-white'>Buy now</Text>
     </TouchableOpacity>
 
     <TouchableOpacity className='w-[48%] px-3 py-3 rounded-md bg-green-600 gap-2 flex-row items-center'>

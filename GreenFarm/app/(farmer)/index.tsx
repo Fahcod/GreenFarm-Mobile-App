@@ -5,20 +5,24 @@ import MainHeader from '@/components/MainHeader';
 import VideoContainer from '@/components/Containers/VideoContainer';
 import LatestArticles from '@/components/Containers/LatestArticles';
 import SuggestedProducts from '@/components/Containers/SuggestedProducts';
+import AdvertsContainer from '@/components/Containers/AdvertsContainer';
 
 
 const index = () => {
 
   const SECTIONS = [
+    {type:"advert",data:[1]},
     {type:'videos',data:[1]},
     {type:'products',data:[1]},
-    {type:'videos',data:[1]},
     {type:'articles',data:[1]}
   ];
 
   // the funciton to render a section by its content type
   const renderItem = ({section}:{section:{type:string,data:number[]}})=>{
      switch(section.type){
+
+      case "advert":
+        return <AdvertsContainer/>
         
       case "videos":
         return <VideoContainer/>;
