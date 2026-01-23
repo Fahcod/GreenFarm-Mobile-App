@@ -33,7 +33,9 @@ export const registerUserService = async ({name,email,role,password}) =>{
     // update the user and store the access token
     user.refreshToken = refresh_token;
     await user.save();
+
     let data = excludeFileds(user,["password","refresh_tokens"]);
+    console.log(data)
     // return the data
     return {refresh_token,data,access_token}
 }
