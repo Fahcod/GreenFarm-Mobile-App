@@ -3,8 +3,8 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { Feather, FontAwesome6 } from '@expo/vector-icons'
-import { all_stores } from '@/constants/data'
 import StoreItem from '@/components/StoreItem'
+import EmptyStores from '@/components/EmptyComponents/EmptyStores'
 
 const allStores = () => {
   return (
@@ -21,7 +21,8 @@ const allStores = () => {
     </View>
     {/* end of the header, the stores */}
     <FlatList
-    data={all_stores}
+    data={[]}
+    ListEmptyComponent={<EmptyStores/>}
     contentContainerStyle={{paddingHorizontal:10}}
     showsVerticalScrollIndicator={false}
     ListHeaderComponent={<>
@@ -34,14 +35,10 @@ const allStores = () => {
     <TextInput 
     className='flex-1'
     placeholder='search stores'/>
-    <TouchableOpacity>
-    <FontAwesome6 size={18} color={'#454545'} name={'filter'}/>
-    </TouchableOpacity>
     </View>
     </View>
     </>}
-    renderItem={({item})=><StoreItem {...item}/>}
-    keyExtractor={(item)=>item._id}
+    renderItem={({item})=><StoreItem props={item}/>}
     />
 
     </SafeAreaView>

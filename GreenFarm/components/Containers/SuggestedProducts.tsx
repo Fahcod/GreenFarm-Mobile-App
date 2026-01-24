@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import React from 'react';
 import { FontAwesome6 } from '@expo/vector-icons';
-import { all_products } from '@/constants/data';
 import MarketplaceItem from '../Cards/MarketplaceItem';
 import { router } from 'expo-router';
 import HorizontalRule from '../HorizontalRule';
+import EmptySuggestedProducts from '../EmptyComponents/EmptySuggestedProducts'
 
 const SuggestedProducts = () => {
   return (
@@ -19,11 +19,12 @@ const SuggestedProducts = () => {
    </View>
    {/* the flatlist to render the products */}
    <FlatList
-   data={all_products}
+   data={[]}
    horizontal={true}
    bounces={false}
-   renderItem={({item})=><MarketplaceItem {...item}/>}
-   contentContainerStyle={{gap:10}}
+   ListEmptyComponent={<EmptySuggestedProducts/>}
+   renderItem={({item})=><MarketplaceItem props={item}/>}
+   contentContainerStyle={{gap:10,width:'100%'}}
    showsHorizontalScrollIndicator={false}
    ListFooterComponent={<><HorizontalRule mt={2}/></>}
    />

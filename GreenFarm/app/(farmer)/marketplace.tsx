@@ -6,6 +6,7 @@ import Categories from '@/components/Containers/Categories';
 import SuggestedStores from '@/components/Containers/SuggestedStores';
 import { all_products } from '@/constants/data';
 import ProductCard from '@/components/Cards/ProductCard';
+import EmptyProducts from '@/components/EmptyComponents/EmptyProducts';
 
 
 const marketplace = () => {
@@ -13,9 +14,10 @@ const marketplace = () => {
     <SafeAreaView edges={["top","right","left"]} className='flex-1 bg-white'>
     <MainHeader/>
     <FlatList
-    data={all_products}
-    renderItem={({item})=><ProductCard {...item}/>}
+    data={[]}
+    renderItem={({item})=><ProductCard props={item}/>}
     showsVerticalScrollIndicator={false}
+    ListEmptyComponent={<EmptyProducts/>}
     numColumns={2}
     contentContainerStyle={{paddingHorizontal:12,paddingBottom:35}}
     columnWrapperStyle={{gap:10,marginBottom:15}}

@@ -2,11 +2,12 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
 import ArticleCard from '../Cards/ArticleCard';
 import { FontAwesome6 } from '@expo/vector-icons'
-import { all_articles } from '@/constants/data';
+import EmptyLatestArticles from '../EmptyComponents/EmptyLatestArticles';
 
 const LatestArticles = () => {
   return (
-   <><View className='w-full my-5 flex flex-row items-center justify-between'>
+   <>
+   <View className='w-full my-5 flex flex-row items-center justify-between'>
    <Text className='font-bold text-xl'>Latest articles</Text>
    {/* the right see all button */}
    <TouchableOpacity className='flex flex-row items-center gap-2'>
@@ -15,10 +16,11 @@ const LatestArticles = () => {
    </TouchableOpacity>
    </View>
    <FlatList
-   data={all_articles}
-   renderItem={({item})=><ArticleCard {...item}/>}
+   data={[]}
+   renderItem={({item})=><ArticleCard props={item}/>}
    horizontal={true}
-   contentContainerStyle={{gap:10}}
+   ListEmptyComponent={<EmptyLatestArticles/>}
+   contentContainerStyle={{gap:10,width:'100%'}}
    showsHorizontalScrollIndicator={false}
    bounces={false}
    />

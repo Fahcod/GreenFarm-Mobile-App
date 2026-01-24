@@ -20,7 +20,7 @@ const MainHeader = () => {
     <Feather size={22} name="bell"/>
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={()=>router.push('/(business)/' as any)}>
+    <TouchableOpacity>
     <Feather size={22.5} name="list"/>
     </TouchableOpacity>
 

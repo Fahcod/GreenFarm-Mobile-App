@@ -11,7 +11,8 @@ const login = () => {
       display:'flex',
       flexDirection:'column',
       alignItems:'center',
-      justifyContent:'center'
+      justifyContent:'center',
+       paddingHorizontal:12
     }}>
     {/* This is the register page for the users */}
     <View className='mt-12'>
@@ -23,12 +24,13 @@ const login = () => {
     onSubmit={(values)=>{}}
     >
     {({errors,handleBlur,handleSubmit,handleChange,touched,values})=>(
-    <View className='w-full px-5 mt-7 flex flex-col gap-3'>
+    <View className='w-full bg-white p-3 rounded-md shadow-md px-5 mt-7 flex flex-col'>
 
     <View>
+    <Text>Email</Text>
     <TextInput
     placeholder='Your email'
-    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
+    className='w-full h-[45px] bg-input mt-2 px-3 rounded-md'
     value={values.email}
     onChangeText={handleChange('email')}
     onBlur={handleBlur('email')}
@@ -38,23 +40,24 @@ const login = () => {
     </View>
 
     <View>
+    <Text>Password</Text>
     <TextInput
     placeholder='Your password'
-    className='w-full h-[55px] px-3 rounded-md border-solid border border-gray-200'
-    value={values.password}
-    onChangeText={handleChange('password')}
-    onBlur={handleBlur('password')}
+    className='w-full h-[45px] bg-input mt-2 px-3 rounded-md'
+    value={values.name}
+    onChangeText={handleChange('name')}
+    onBlur={handleBlur('name')}
     secureTextEntry={true}
     />
     <Text></Text>
     </View>
 
     <View>
-    <TouchableOpacity className='w-full px-3 flex flex-row justify-center items-center h-[55px] rounded-md bg-primary-300'>
+    <TouchableOpacity className='w-full px-3 flex flex-row justify-center items-center h-[45px] rounded-md bg-primary-300'>
     <Text className='text-white text-lg'>Continue</Text>
     </TouchableOpacity>
     <Text className='text-sm text-[#454545] pt-1'>Don't have an account? 
-    <Link href="/(auth)/signup">Register</Link></Text>
+    <Link className='text-blue-500' href="/(auth)/signup">Register</Link></Text>
     </View>
 
     </View>

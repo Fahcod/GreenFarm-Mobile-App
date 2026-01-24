@@ -1,13 +1,14 @@
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { all_stores } from '@/constants/data';
 import StoreItem from '../StoreItem';
 import { router } from 'expo-router';
+import EmptyStores from '../EmptyComponents/EmptyStores';
 
 const SuggestedStores = () => {
   return (
     <FlatList
-    data={all_stores}
+    data={[]}
+    ListEmptyComponent={<EmptyStores/>}
     ListHeaderComponent={<>
     <View className='w-full mt-7 flex flex-row justify-between items-center'>
     <Text className='font-bold text-lg'>Suggested stores</Text>
@@ -16,7 +17,7 @@ const SuggestedStores = () => {
     </TouchableOpacity>
     </View>
     </>}
-    renderItem={({item})=><StoreItem {...item}/>}
+    renderItem={({item})=><StoreItem props={item}/>}
     />
   )
 }

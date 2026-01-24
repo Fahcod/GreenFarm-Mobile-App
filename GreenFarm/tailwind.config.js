@@ -9,6 +9,7 @@ module.exports = {
         primary:{
           300:'#16a34a'
         },
+        input:'#f7f6f6',
         dark:{
           300:"#08111c"
         }

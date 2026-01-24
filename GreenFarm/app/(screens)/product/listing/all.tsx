@@ -3,8 +3,10 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import { Feather, FontAwesome6 } from '@expo/vector-icons'
-import { all_products } from '@/constants/data'
 import ProductCard from '@/components/Cards/ProductCard'
+import { CATEGORIES_LIST } from '@/constants/categories'
+import HorizontalRule from '@/components/HorizontalRule'
+import EmptyProducts from '@/components/EmptyComponents/EmptyProducts'
 
 const allProducts = () => {
   return (
@@ -21,10 +23,11 @@ const allProducts = () => {
     </View>
     {/* end of the header */}
     <FlatList
-      data={all_products}
-    renderItem={({item})=><ProductCard {...item}/>}
+    data={[]}
+    renderItem={({item})=><ProductCard props={item}/>}
     numColumns={2}
     showsVerticalScrollIndicator={false}
+    ListEmptyComponent={<EmptyProducts/>}
     columnWrapperStyle={{gap:10,marginBottom:15}}
     contentContainerStyle={{
         paddingHorizontal:10,
@@ -34,17 +37,26 @@ const allProducts = () => {
     ListHeaderComponent={<>
     <View className='w-full'>
     {/* the search box */}
-    <View className='w-full mb-11 mt-3 px-3 bg-[#efefef] rounded-md flex gap-4 flex-row items-center'>
+    <View className='w-full mt-3 px-3 bg-[#efefef] rounded-md flex gap-4 flex-row items-center'>
     <TouchableOpacity>
     <Feather size={18} color={'#454545'} name={'search'}/>
     </TouchableOpacity>
     <TextInput 
     className='flex-1'
     placeholder='search products'/>
-    <TouchableOpacity>
-    <FontAwesome6 size={18} color={'#454545'} name={'filter'}/>
-    </TouchableOpacity>
     </View>
+    <HorizontalRule mt={10}/>
+     {/* the container for the categories */}
+      <View className='w-full flex flex-row gap-3 mt-2 flex-wrap'>
+        {CATEGORIES_LIST.map((item,index)=>{
+          return (
+            <TouchableOpacity className='bg-[#efefef] rounded-md px-2 py-2' key={index}>
+            <Text className='text-sm'>{item}</Text>
+            </TouchableOpacity>
+          )
+        })}
+      </View>
+      <HorizontalRule mt={10} mb={10}/>
     </View>
     </>}
       />

@@ -6,7 +6,7 @@ const AdvertCard = () => {
     <View className='w-full p-3 rounded-md flex flex-row items-center h-[170px] bg-green-600'>
     <View>
     <Text className='font-bold text-lg leading-none text-white'>
-    Boost your incoe by learning the best farming practices! </Text>
+    Boost your income by learning the best farming practices! </Text>
     <Text className='text-xs font-open-sans text-white pt-2'>
     Browse our up to date video tips on the best farming practices in your local languages, right there for free 
     </Text>

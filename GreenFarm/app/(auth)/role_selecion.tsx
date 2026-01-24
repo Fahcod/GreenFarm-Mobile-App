@@ -28,11 +28,6 @@ const role_selecion = () => {
     <Text className='font-semibold'>I am a business owner</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity className='flex border-solid border border-gray-200 py-4 rounded-md px-11  flex-row items-center gap-4'>
-    <FontAwesome6 size={20} color={'#16a34a'} name={'leaf'}/>
-    <Text className='font-semibold'>I am an Agric expert</Text>
-    </TouchableOpacity>
-
     {/* the next button */}
     <TouchableOpacity className='px-11 rounded-md mt-4 bg-primary-300 py-4'>
     <Text className='text-lg text-white text-center'>Continue to next</Text>
