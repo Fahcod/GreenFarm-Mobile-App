@@ -3,9 +3,20 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useDispatch } from 'react-redux';
+import { setUserRole } from '@/slices/userSlice';
 
 
 const role_selecion = () => {
+
+  const dispatch = useDispatch();
+
+  // the function to set the user role and route to signup
+  function storeUserRole(role:string){
+     dispatch(setUserRole(role));
+     router.push('/(auth)/signup')
+  }
+
   return (
     <SafeAreaView className='flex-1 bg-white'>
     {/* this is the page where the users will select their roles */}
@@ -18,12 +29,12 @@ const role_selecion = () => {
     {/* the roles container */}
     <View className='flex flex-col gap-7 mt-10'>
 
-    <TouchableOpacity onPress={()=>router.push('/(auth)/signup')} className='flex border-solid border border-gray-200 py-4 rounded-md px-11  flex-row items-center gap-4'>
+    <TouchableOpacity onPress={()=>storeUserRole("farmer")} className='flex border-solid border border-gray-200 py-4 rounded-md px-11  flex-row items-center gap-4'>
     <FontAwesome6 size={20} color={'#16a34a'} name={'tractor'}/>
     <Text className='font-semibold'>I am a farmer</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity className='flex border-solid border border-gray-200 py-4 rounded-md px-11  flex-row items-center gap-4'>
+    <TouchableOpacity onPress={()=>storeUserRole("business")} className='flex border-solid border border-gray-200 py-4 rounded-md px-11  flex-row items-center gap-4'>
     <FontAwesome6 size={20} color={'#16a34a'} name={'shop'}/>
     <Text className='font-semibold'>I am a business owner</Text>
     </TouchableOpacity>

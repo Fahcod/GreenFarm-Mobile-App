@@ -45,6 +45,19 @@
           }
         }
       ],
+      [
+       "expo-font",
+      {
+        "fonts":[
+          "./assets/fonts/Poppins-Bold.ttf",
+          "./assets/fonts/Poppins-ExtraBold.ttf",
+          "./assets/fonts/Poppins-Light.ttf",
+          "./assets/fonts/Poppins-Medium.ttf",
+          "./assets/fonts/Poppins-Regular.ttf",
+          "./assets/fonts/Poppins-SemiBold.ttf"
+        ]
+      }
+      ],
       "expo-video",
       "expo-sqlite",
       "expo-web-browser"

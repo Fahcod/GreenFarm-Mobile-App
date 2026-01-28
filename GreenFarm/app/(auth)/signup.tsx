@@ -1,10 +1,40 @@
-import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
 import { Link } from 'expo-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosInstance } from '@/API/api'
+
+interface SignupData {
+  name:string,
+  email:string,
+  password:string,
+}
 
 const signup = () => {
+
+  const dispatch = useDispatch();
+  const user_role:string = useSelector((state:any)=>state.user.USER_ROLE);
+
+  const signupUser = async (values:SignupData) =>{
+  try {
+
+  let response = await axiosInstance.post('/api/v1/auth/register',values);
+  if(response.status === 201){
+    // store token in async storage
+    
+  }
+
+  } catch (error:any) {
+    if(error.response){
+      
+    }else if (error.request){
+      
+    }
+  }
+  };
+
   return (
     <SafeAreaView className='flex-1 bg-white'>
     <ScrollView contentContainerStyle={{
