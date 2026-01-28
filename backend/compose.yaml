@@ -8,13 +8,27 @@ services:
        - "7500:7500"
       
       environment:
-          MONGO_URI: mongodb://db:27017/NewFarmingApp
+          MONGO_URI: mongodb://db:27017/BetterFarmingApp
           PORT: 7500
           ACCESS_TOKEN_SECRET: bde6d7-89gbde-809ueb-bb46d-ebabe4-ebdae8-669fg-ajhb
           REFRESH_TOKEN_SECRET: bde6d7-67baded-869db-obf36-eba98-7ef4-98bdef-87ebda
 
       depends_on:
         - db
+
+      develop:
+
+        watch:
+          
+          - path: ./package.json
+            action: rebuild
+          
+          - path: ./package-lock.json
+            action: rebuild
+            
+          - path: ./
+            target: /usr/src/app
+            action: sync
       
       volumes:
         - ./:/usr/src/app

@@ -5,7 +5,7 @@ import {check} from "express-validator";
 export const validateSignupData = [
     check('name').trim().notEmpty().withMessage("The username is required")
     .isLength({min:5}).withMessage("The user name is too short!")
-    .isLength({max:20}).withMessage("The user name is too long"),
+    .isLength({max:40}).withMessage("The user name is too long"),
     check('role').trim().notEmpty().withMessage("The user role is required"),
     check('password').trim().notEmpty().withMessage("The user passwordis required")
     .isLength({min:10}).withMessage("The user pwassword is too short!"),
@@ -53,23 +53,4 @@ export const validateProductData = [
     .isLength({max:400}).withMessage("The product description is too long"),
     check('quantity').isNumeric().withMessage("The quantity should be numeric")
     .notEmpty().withMessage("The product quantity is required")
-]
-
-// validate new user name
-export const validateNewName = [
-    check('new_name').trim().notEmpty().withMessage("The new user name is required")
-    .isLength({min:5}).withMessage("The user name is too short")
-    .isLength({max:60}).withMessage("The user name is too long")
-]
-
-// validate learning_content form data
-export const validateContentData = [
-  check('title').trim().notEmpty().withMessage("The title is required")
-  .isLength({min:8}).withMessage("The title is too short")
-  .isLength({max:100}).withMessage("The title is too long"),
-  check('content_type').trim().notEmpty().withMessage("The content type is required")
-  .isLength({max:15}).withMessage("The content type is invalid"),
-  check('description').trim().notEmpty().withMessage("The description is required")
-    .isLength({min:100}).withMessage("The description is too short")
-    .isLength({max:2000}).withMessage("The description is too long"),
 ]

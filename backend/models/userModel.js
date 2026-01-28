@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     role:{type:String,required:true,enum:["farmer","admin","business"]},
     profile_pic:{type:String,default:""},
     email:{type:String,required:true,unique:true,default:""},
-    refreshToken:{type:String}
+    refreshTokens:{type:String}
 },{timestamps:true});
 
 const userModel = mongoose.models.users || mongoose.model("users",userSchema);

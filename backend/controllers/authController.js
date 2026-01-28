@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { validationResult } from "express-validator";
-import { loginUserService, newTokenService,
+import { loginUserService,
  registerUserService } from "../services/authService.js";
 
 
@@ -14,13 +14,18 @@ export const registerUser = asyncHandler(async (req,res)=>{
     if(!errors.isEmpty()){
         return res.status(422).json({
             message:"Please fill in all the fields correctly",
-            errors:errors.mapped()
+            errors:errors.array()
         })
     }
     // call the register user service to create the user
     const {refresh_token,data,access_token} = await registerUserService({
         name,email,role,password
     });
+
+     //set the cookie in the response
+    res.cookie('auth',refresh_token,
+    {httpOnly:true,secure:true,sameSite:'none',maxAge: 1000 * 60 * 60 * 24 *30});
+
     // return the response to the user
     res.status(201).json({refresh_token,data,access_token});
 });
@@ -39,11 +44,16 @@ export const loginUser = asyncHandler(async (req,res)=>{
         })
     }
     // call the login service to login the user
-    const {refresh_token,data,access_token} = await loginUserService({email,password})
+    const {refresh_token,data,access_token} = await loginUserService({email,password});
+
+    //set the cookie in the response
+    res.cookie('auth',refresh_token,
+    {httpOnly:true,secure:true,sameSite:'none',maxAge: 1000 * 60 * 60 * 24 *30});
     
     // return the response to the user
     res.status(201).json({refresh_token,data,access_token});
 });
+
 
 // the logOut endpoint
 export const logOut = asyncHandler(async(req,res)=>{
@@ -58,19 +68,6 @@ export const logOut = asyncHandler(async(req,res)=>{
   await user.save()
 
   res.status(200).json({message:"Logged out!"})
-});
-
-// endpoint for a new access token
-export const newAccessToken = asyncHandler(async(req,res)=>{
-    // get the token
-    const {refresh_token} = req.body;
-    if(!refresh_token){
-        return res.status(404).json({message:"Access token not found!"})
-    }
-    // call the new token service to create a new token
-    const {new_refresh_token,new_access_token} = await newTokenService({refresh_token})
-   
-    res.status(200).json({new_refresh_token,new_access_token})
 });
 
 

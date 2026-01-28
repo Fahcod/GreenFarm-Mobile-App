@@ -1,4 +1,3 @@
-import { uploadSaveFile } from "../utils/fileUploader.js";
 import storeModel from "../models/storeModel.js"
 import { customError } from "../utils/customError.js";
 import productModel from "../models/productModel.js";
@@ -8,9 +7,12 @@ import productModel from "../models/productModel.js";
 export const createStoreService = async ({name,dealing_in,location,
     description,store_contacts,user_id}) =>{
 
+    // get the current date
+    const currentDate = new Date();
+
     // check if the store name is not already taken
     let storeCheck = await storeModel.findOne({name:name});
-    if(storeCheck) throw new customError("This store name is already taken");
+    if(storeCheck) throw new customError("This store name is already taken",400);
     
     // create the store
     let newStore = new storeModel({
@@ -19,14 +21,20 @@ export const createStoreService = async ({name,dealing_in,location,
         dealing_in:dealing_in,
         location:location,
         description:description,
-        store_contacts:store_contacts
+        store_contacts:store_contacts,
+        subscription:{
+            plan:"free",
+            start_date:currentDate,
+            end_date:new Date(currentDate).setMonth(currentDate.getMonth() + 1),
+            is_active:true,
+        }
     });
 
     await newStore.save();
     let data = await newStore.populate("owner", "profile_pic username")
     //TODO: Add payment logic for the created stores later
 
-    return data;
+    return {data};
 }
 
 export const updateStoreProfileService = async ({user_id,storeId}) =>{
@@ -42,7 +50,7 @@ export const updateStoreProfileService = async ({user_id,storeId}) =>{
      }
     // after confirmation of store ownership, get the image url
     const file_url = 'http://';
-    if(!file_url) throw new customError(500,"Failed to upload file");
+    if(!file_url) throw new customError("Failed to upload file",500);
     
     // update the store in db
     store.store_profile = file_url;
@@ -68,7 +76,7 @@ export const deleteStoreService = async ({storeId,user_id}) =>{
 
     // TODO: Delete the store profile and product images
 
-    //  after owership confirmation, delete the store
+    // after owership confirmation, delete the store
     let deletedStore = await storeModel.deleteOne({_id:storeId});
     if(deletedStore.deletedCount === 0) throw new customError(500,"Error deleting store");
 

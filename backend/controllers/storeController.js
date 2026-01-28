@@ -1,7 +1,8 @@
 import storeModel from "../models/storeModel.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { validationResult } from "express-validator";
-import { createStoreService, deleteStoreService, updateStoreProfileService } from "../services/storeService.js";
+import { createStoreService, deleteStoreService,
+     updateStoreProfileService } from "../services/storeService.js";
 
 // create a store
 export const createStore = asyncHandler(async (req,res)=>{
@@ -65,3 +66,21 @@ export const deleteStore = asyncHandler(async (req,res)=>{
 // but if everything goes right, return the response
 res.status(200).json({message:"Store deleted successfully"})
 });
+
+
+// fetch all stores
+export const fetchAllStores = asyncHandler(async (req,res)=>{
+    let results = await storeModel.find();
+
+    res.status(200).json({data:results})
+});
+
+// fetch the newly created stores
+export const fetchLatestStores = asyncHandler(async (req,res)=>{
+
+   //fetch and return the 5 latest stores
+   let results = await storeModel.find({}).limit(5).sort({createdAt:-1})
+   .populate("owner","name profile_pic email");
+   res.status(200).json({data:results});
+
+})

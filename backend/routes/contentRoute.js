@@ -1,17 +1,19 @@
 import express from "express";
-import { validateContentData } from "../lib/validation.js";
 import {protectRoute} from "../middleware/authMiddleware.js";
+import {uploader} from "../utils/multer.js";
 import {restrictTo} from "../middleware/restrictionMiddleware.js"
 import { createContent, deleteContent, fetchAllArticles, 
+    fetchAllContent, 
     fetchLatestVideos } from "../controllers/contentController.js";
 
 const contentRouter = express.Router();
 
 contentRouter.post('/create',protectRoute,restrictTo(["admin"]),
-validateContentData,createContent);
+uploader.array("image",3),createContent);
 contentRouter.get('/articles',fetchAllArticles);
 contentRouter.get('/latest-videos',fetchLatestVideos);
 contentRouter.delete('/delete/:contentId',protectRoute,restrictTo(["admin"]),
-deleteContent)
+deleteContent);
+contentRouter.get('/all',protectRoute,restrictTo(["admin"]),fetchAllContent)
 
 export default contentRouter;

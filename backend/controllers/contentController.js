@@ -1,6 +1,6 @@
 import contentModel from "../models/contentModel.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { validationResult } from "express-validator";
+import { uploadLocaFiles } from "../utils/fileUploader.js";
 
 
 // create an article or video content
@@ -8,17 +8,31 @@ export const createContent = asyncHandler(async (req,res)=>{
 // get the form data
 const {title,content_type,description} = req.body;
 const {user_id} = req.user;
-// check if the file exists in the req
-// if(!req.file) return res.status(404).json({message:"File not found!"})
+if(!req.files) return res.status(404).json({message:"File not found!"});
 
-const errors = validationResult(req);
-if(!errors.isEmpty()){
-    return res.status(422).json({
-        message:"Please fill in all the fields correctly",
-        errors:errors.mapped()
-    })
+// validate the data
+if(title.trim().length === 0 || description.trim().length === 0){
+    return res.status(422).json({message:"Either title or descriptions is empty!"})
 }
-// TODO: Add file upload logic
+// make sure that the data is of normal length
+const contentData = {title,description}
+switch(contentData){
+     
+    case contentData.title.length > 10:
+        return res.status(422).json({message:"The title is too short"});
+    
+    case contentData.title.length > 90:
+        return res.status(422).json({message:"The title is too long"});
+
+    case contentData.description.length < 10:
+        return res.status(422).json({message:"The description is too short"});
+    
+    case contentData.description.length > 1000:
+        return res.status(422).json({message:"The description is too long"});
+}
+
+// Upload the content files
+const {file_urls} = uploadLocaFiles(req.files);
   
 // create the new content
 let newContent = new contentModel({
@@ -26,11 +40,11 @@ let newContent = new contentModel({
     content_type:content_type,
     description:description,
     created_by:user_id,
-    files:['http://']
+    files:[...file_urls]
 });
 await newContent.save();
 let populatedContent = await newContent.populate("created_by","name profile_pic");
-res.status(201).json({data:populatedContent});
+res.status(201).json({data:populatedContent,message:"Created successfully"});
 
 });
 
@@ -48,6 +62,7 @@ if(!contentData) return res.status(404).json({message:"Content not found!"});
 if(contentData.created_by.toString() !== user_id){
 return res.status(403).json({message:"You don't own this content please"})
 }
+
 //TODO: Add the logic to delete the content files first
 
 // if okay, then delete the content
@@ -71,6 +86,7 @@ export const fetchAllArticles = asyncHandler(async (req,res)=>{
     res.status(200).json({data:result})
 });
 
+
 // fetch latest videos
 export const fetchLatestVideos = asyncHandler(async (req,res)=>{
     const {skip} = req.query;
@@ -82,3 +98,15 @@ export const fetchLatestVideos = asyncHandler(async (req,res)=>{
     
     res.status(200).json({data:result})
 });
+
+
+// fetch all content including videos and articles
+export const fetchAllContent = asyncHandler(async (req,res)=>{
+     const {skip} = req.query;
+     const LIMIT = 10;
+
+     let results = await contentModel.find({}).skip(skip).limit(LIMIT)
+     .populate("created_by","name profile_pic");
+
+     res.status(200).json({data:results})
+})

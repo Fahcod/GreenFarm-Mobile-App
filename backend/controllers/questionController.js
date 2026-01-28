@@ -1,6 +1,5 @@
 import questionModel from "../models/questionModel.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadSaveFile } from "../utils/fileUploader.js";
 
 
 // the endpoint for asking a question
