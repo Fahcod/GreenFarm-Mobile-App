@@ -79,3 +79,13 @@ let results = await productModel.find(query).sort({_id:1})
 
 res.status(200).json({data:results})
 });
+
+// get the suggested products
+export const fetchSuggestedProducts = asyncHandler(async (req,res)=>{
+    
+    let result = await productModel.find()
+    .populate("store","name store_profile description store_contacts")
+    .limit(5);
+
+    res.status(200).json({data:result})
+})

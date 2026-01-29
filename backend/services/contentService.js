@@ -10,7 +10,7 @@ export const createContentService = async ({
     description,
     user_id,
     content_files
-}) =>{
+   }) =>{
       
     // Upload the content files
     const {file_urls} = uploadLocaFiles(content_files);
