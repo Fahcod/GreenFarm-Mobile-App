@@ -5,11 +5,16 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 // create an article or video content
 export const createContent = asyncHandler(async (req,res)=>{
+    let content_files;
     // get the form data
     const {title,content_type,description} = req.body;
     const {user_id} = req.user;
-    if(!req.files) return res.status(404).json({message:"File not found!"});
-    const content_files = req.files;
+    if(!req.files) return res.status(404).json({message:"Files not found!"});
+    if(content_type === "article"){
+        content_files = req.files.images;
+    }else if (content_type === "video"){
+        content_files = [...req.files.videos,...req.files.images]
+    }
     
     // validate the data
     if(title.trim().length === 0 || description.trim().length === 0){
@@ -97,11 +102,11 @@ export const fetchLatestVideos = asyncHandler(async (req,res)=>{
 // fetch latest articles for the homepage
 export const fetchLatestArticles = asyncHandler(async (req,res)=>{
 
-    let result = await contentModel.find({content_type:"video"})
+    let result = await contentModel.find({content_type:"article"})
     .populate("created_by","name profile_pic").sort({createdAt:-1})
     .limit(5);
 
-    // after fetching the five latest videos, return them
+    // after fetching the five latest articles, return them
     res.status(200).json({data:result})
 });
 
@@ -115,4 +120,30 @@ export const fetchAllContent = asyncHandler(async (req,res)=>{
      .populate("created_by","name profile_pic");
 
      res.status(200).json({data:results})
+})
+
+// fetch the data for a single article
+export const fetchArticleData = asyncHandler(async (req,res)=>{
+    const {articleId} = req.params;
+    if(!articleId || articleId.length === 0){
+        res.status(404).json({message:"Article Id not provided"})
+    }
+    // ftech the article
+    let result = await contentModel.findById(articleId)
+    .populate("created_by","name profile_pic");
+    
+    res.status(200).json({data:result});
+});
+
+// fetch the data for a single video
+export const fetchVideoData = asyncHandler(async (req,res)=>{
+    const {videoId} = req.params;
+    if(!videoId || videoId.length === 0){
+        res.status(404).json({message:"Video id not provided"})
+    }
+    // ftech the video
+    let result = await contentModel.findById(videoId)
+    .populate("created_by","name profile_pic");
+    
+    res.status(200).json({data:result});
 })

@@ -26,8 +26,7 @@ app.use(express.json());
 app.use(cors({
     credentials:true,
     methods:["POST","PUT","DELETE","GET"],
-    origin:["http://localhost:5173",
-    ]
+    origin:["http://localhost:5173","exp://192.168.1.198:8081"],
 }));
 app.use(helmet());
 app.use(cookieParser())
@@ -36,7 +35,7 @@ app.use(cookieParser())
 app.use(rateLimit({
     windowMs:1000 * 60 * 15,
     message:'Too many requests frim this ip, try again later',
-    max:100,
+    max:1600,
     handler:(req,res)=>{res.status(429)
     .json({message:"Too many requests, try again later"})}
 }));
@@ -63,9 +62,13 @@ app.use('/api/v1/assets',express.static("uploads"));
 // the global error handler
 app.use((err,req,res,next)=>{
   console.log(err.stack)
-  res.status(err.statusCode || 500).json({
-        message:err.message || "Internal Server Error From here"
+  if(err.isOperational){
+     res.status(err.statusCode || 500).json({
+        message:err.message || "Internal Server Error"
     });
+  }else{
+     res.status(500).json({message:"Internal Server Error"});
+  }
 })
 
 //connect to the databse and run the server

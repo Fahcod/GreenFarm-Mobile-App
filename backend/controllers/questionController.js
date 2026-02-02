@@ -83,7 +83,7 @@ export const fetchAllQuestions = asyncHandler(async (req,res)=>{
     const {after} = req.query;
 
     let query = {}
-    if(after){query._id = {$gt:after};}
+    if(after){query._id = {$gt:after}}
 
     const LIMIT = 10;
     // below is the query filter

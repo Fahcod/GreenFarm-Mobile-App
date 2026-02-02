@@ -1,12 +1,13 @@
 import productModel from "../models/productModel.js";
 import storeModel from "../models/storeModel.js";
 import { customError } from "../utils/customError.js";
+import {uploadLocaFiles} from "../utils/fileUploader.js"
 
 // THE PRODUCT SERVICES
 
 // the service to create the product
 export const createProductService = async ({title,description,price,category,
-    quantity,storeId,user_id}) =>{
+    quantity,storeId,user_id,product_files}) =>{
     
     //two different products should not have the same name
     let productCheck = await productModel.findOne({title:title});
@@ -18,13 +19,18 @@ export const createProductService = async ({title,description,price,category,
     if(store.owner.toString() !== user_id){
         throw new customError(403,"This store is not yours");
     }
+
+    if(product_files.length === 0){
+        throw new customError(404,"Product images were not found")
+    }
     // if everything is okay, save the product image and create a new product
-    const file_url ="https://greenfarm-api/" //uploadSaveFile(req.file.filename);
+    // Upload the content files
+    const {file_urls} = uploadLocaFiles(product_files);
 
     let newProduct = new productModel({
       title:title,
       price:price,
-      images:[file_url],
+      images:[...file_urls],
       description:description,
       category:category,
       store:storeId,

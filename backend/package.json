@@ -36,7 +36,6 @@
     "@babel/preset-env": "^7.28.6",
     "babel-jest": "^30.2.0",
     "jest": "^30.2.0",
-    "mockingoose": "^2.16.2",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.11"
   }

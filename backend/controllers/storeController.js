@@ -12,8 +12,9 @@ export const createStore = asyncHandler(async (req,res)=>{
 
     const errors = validationResult(req);
     if(!errors.isEmpty()){
+        console.log(errors.array())
         return res.status(422).json({message:"Please fill in the fields correctly",
-            errors:errors.mapped()})
+            errors:errors.array()})
     }
     
     // call the create store service to create the store
@@ -28,10 +29,8 @@ export const fetchStore = asyncHandler(async (req,res)=>{
     // get the store id
     const {storeId} = req.params;
     if(!storeId) return res.status(404).json({message:"Store id not found"})
-    let result = await storeModel.findById(storeId).populate("owner","profile_pic");
-    if(!result){
-        return res.status(404).json({message:"Store does not exist"})
-    }
+    let result = await storeModel.findById(storeId).populate("owner","profile_pic name");
+    if(!result){return res.status(404).json({message:"Store does not exist"})}
     // else if the store exists, return the data
     res.status(200).json({data:result})
 });
@@ -48,7 +47,6 @@ export const updateStoreProfile = asyncHandler(async (req,res)=>{
     storeId,
     user_id
    });
-
   res.status(200).json({message:"Store profile updated sucessfully",new_store_profile})
 });
 
@@ -83,4 +81,14 @@ export const fetchLatestStores = asyncHandler(async (req,res)=>{
    .populate("owner","name profile_pic email");
    res.status(200).json({data:results});
 
+});
+
+// fetch business's stores
+export const fetchBusinessStores = asyncHandler(async (req,res)=>{
+    // get the id of the business owner
+    const {user_id} = req.user;
+
+    let results = await storeModel.find({owner:user_id}).limit(3)
+    .sort({createdAt:-1});
+    res.status(200).json({data:results})
 })
