@@ -75,7 +75,7 @@ const index = () => {
     </Pressable>
 
     {/* the right button */}
-    <TouchableOpacity className='w-[34px] flex items-center justify-center h-[34px] bg-[#efefef] rounded-full'>
+    <TouchableOpacity onPress={()=>router.push('/(auth)/role_selecion')} className='w-[34px] flex items-center justify-center h-[34px] bg-[#efefef] rounded-full'>
     <Feather name={'menu'} size={20}/>
     </TouchableOpacity>
     </View>

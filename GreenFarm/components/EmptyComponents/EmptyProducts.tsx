@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import React from 'react';
 
-const dummy_data = [1,2,3,4]
+const dummy_data = [1,2,3,4,5,6,7,8]
 
 const EmptyProducts = () => {
   return (

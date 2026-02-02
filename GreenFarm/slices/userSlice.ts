@@ -36,7 +36,6 @@ export const fetchUser = createAsyncThunk(
         
           let response = await axiosInstance.get('/api/v1/user/fetch');
           if(response.status === 200){
-            console.log(response.data.data)
              return response.data.data
           }
         

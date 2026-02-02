@@ -1,14 +1,22 @@
 import { StatusBar, SectionList } from 'react-native';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MainHeader from '@/components/MainHeader';
 import VideoContainer from '@/components/Containers/VideoContainer';
 import LatestArticles from '@/components/Containers/LatestArticles';
 import SuggestedProducts from '@/components/Containers/SuggestedProducts';
 import AdvertsContainer from '@/components/Containers/AdvertsContainer';
+import { AppContext } from '@/context/AppContext';
 
 
 const index = () => {
+
+  // we need to fetch all this data from the api so we call our function
+  const {fetchHomePageData} = useContext(AppContext);
+
+  useEffect(()=>{
+    fetchHomePageData()
+  },[]);
 
   const SECTIONS = [
     {type:"advert",data:[1]},

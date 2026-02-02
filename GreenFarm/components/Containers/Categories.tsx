@@ -11,7 +11,7 @@ const Categories = () => {
    ListHeaderComponent={<>
    <View className='w-full mt-4'>
    <View className='w-full'>
-   <Text className='font-bold text-lg'>What are you looking for?</Text>
+   <Text className='font-poppins-bold text-md'>What are you looking for?</Text>
    </View>
    </View>
    </>}

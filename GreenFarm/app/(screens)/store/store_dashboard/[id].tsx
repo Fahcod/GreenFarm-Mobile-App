@@ -2,12 +2,22 @@ import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome6 } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { all_products } from '@/constants/data';
 import { images } from '@/constants/images';
+import { Store } from '@/types/types';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 
 const store_dashboard = () => {
+
+  const {id} = useLocalSearchParams();
+
+  // get the store data from redux
+  const business_stores:Store[] = useSelector((state:RootState)=>state.stores.business_stores);
+  const selectedStore = business_stores.find((e)=>e._id === id);
+
   return (
     <SafeAreaView className='bg-white flex-1'>
     {/* the custom header */}
@@ -17,7 +27,7 @@ const store_dashboard = () => {
     </TouchableOpacity>
 
     {/* the store name */}
-    <Text className='font-bold text-lg'>Store dashboard</Text>
+    <Text className='font-poppins-bold'>Store dashboard</Text>
   
     <TouchableOpacity>
     <FontAwesome6 name={'ellipsis-vertical'} size={20}/>
@@ -54,13 +64,17 @@ const store_dashboard = () => {
     )}
     ListHeaderComponent={<>
     {/* the store dashboard */}
-    <View className='w-full bg-white p-3 shadow-md rounded-md'>
+    <View className='w-full bg-white p-3 border-solid border border-gray-100 rounded-md'>
     {/* the store information */}
     <View className='w-full flex flex-row gap-3'>
     <Image source={images.machiney_item} style={{width:65,height:65,borderRadius:6}}/>
-    <View>
-    <Text className='font-semibold'>KF Agri Tools Suppliers</Text>
-    <Text numberOfLines={1} className='text-sm text-[#454545]'>Organic fertilizers, garden tools</Text>
+    <View className='flex-1'>
+    <Text className='font-poppins-bold'>{selectedStore?.name}</Text>
+    <Text className='text-xs leading-none font-poppins text-[#454545]' numberOfLines={1}>
+        {selectedStore?.dealing_in.map((item)=>{
+          return item + ", "
+        })}
+        </Text>
     {/* the product rating */}
     <View className='flex flex-row gap-3 items-center'>
     <View className='flex flex-row gap-1'>
@@ -70,7 +84,7 @@ const store_dashboard = () => {
      <FontAwesome6 color={'#f0bc13'} size={9} name={'star'} solid/>
      <FontAwesome6 color={'#f0bc13'} size={9} name={'star'} solid/>
     </View>
-    <Text className='text-[#454545] text-sm'>(234 reviews)</Text>
+    <Text className='text-[#454545] text-sm'>({selectedStore?.reviewsCount} reviews)</Text>
     </View>
 
     </View>
@@ -88,15 +102,6 @@ const store_dashboard = () => {
     </View>
     </View>
 
-    {/* the total categories */}
-    <View className='bg-blue-50 p-3 w-[48%] h-16 rounded-md shadow-md'>
-    <Text className='font-semibold'>7</Text>
-    <View className='flex flex-row items-center gap-2'>
-    <FontAwesome6 size={14} color={'#2563eb'} name={'cart-shopping'}/>
-    <Text className='font-semibold text-sm text-blue-600'>Total categories</Text>
-    </View>
-    </View>
-
     {/* the store rating */}
     <View className='bg-orange-50 p-3 w-[48%] h-16 rounded-md shadow-md'>
     <Text className='font-semibold'>237k</Text>
@@ -106,21 +111,13 @@ const store_dashboard = () => {
     </View>
     </View>
 
-    {/* the store rating */}
-    <View className='bg-red-50 p-3 w-[48%] h-16 rounded-md shadow-md'>
-    <Text className='font-semibold'>11</Text>
-    <View className='flex flex-row items-center gap-2'>
-    <FontAwesome6 size={14} color={'#dc2626'} name={'triangle-exclamation'} solid/>
-    <Text className='font-semibold text-sm text-red-600'>Alerts</Text>
-    </View>
-    </View>
-
     </View>
 
     {/* the products list header */}
     <View className='w-full flex flex-row mt-6 items-center justify-between'>
     <Text className='font-bold text-lg'>Store products</Text>
-    <TouchableOpacity onPress={()=>router.push('/(screens)/store/products/add_product')} className='flex flex-row items-center gap-2'>
+    <TouchableOpacity onPress={()=>router.push(`/(screens)/store/products/add_product/${selectedStore?._id}`)} 
+    className='flex flex-row items-center gap-2'>
     <FontAwesome6 size={18} color={'#3b82f6'} name={'plus'}/>
     <Text className='text-blue-500 font-semibold'>Add a product</Text>
     </TouchableOpacity>
