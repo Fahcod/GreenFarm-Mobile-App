@@ -1,5 +1,6 @@
-import contentModel from "../models/contentModel.js";
-import { createContentService } from "../services/contentService.js";
+import { createContentService, deleteContentService, 
+fetchAllContentService, fetchAllSpecificService, fetchArticleService, 
+fetchLatestContentService} from "../services/contentService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 
@@ -56,22 +57,9 @@ export const deleteContent = asyncHandler(async (req,res)=>{
    const {contentId} = req.params;
    // check if the content id exists
    if(!contentId) return res.status(404).json({message:"Content id not found!"});
-   // fetch the content object, and confirm ownership before deletion
-   let contentData = await contentModel.findById(contentId);
-   if(!contentData) return res.status(404).json({message:"Content not found!"});
-   
-   if(contentData.created_by.toString() !== user_id){
-   return res.status(403).json({message:"You don't own this content please"})
-   }
+   await deleteContentService(contentId,user_id);
 
-  //TODO: Add the logic to delete the content files first
-
-  // if okay, then delete the content
-  let deletedContent = await contentModel.deleteOne({_id:contentId});
-  if(!deletedContent.deletedCount > 0){
-      return res.status(500).json({message:"Failed to delete the content!"})
-  }
-res.status(200).json({message:"Content deleted successfully"})
+   res.status(200).json({message:"Content deleted successfully"})
 });
 
 
@@ -79,35 +67,25 @@ res.status(200).json({message:"Content deleted successfully"})
 export const fetchAllArticles = asyncHandler(async (req,res)=>{
     const {skip} = req.query;
     const LIMIT = 10;
-
-    let query ={content_type:"article"};
-    // add pagination in order to allow the data to be fetched in small chuncks
-    let result = await contentModel.find(query).skip(skip).limit(LIMIT).sort({_id:1});
+    // fetch the content of type `article`
+    const {data} = await fetchAllSpecificService(skip,LIMIT,"article");
     
-    res.status(200).json({data:result})
+    res.status(200).json({data})
 });
 
 
 // fetch latest videos for the homepage
 export const fetchLatestVideos = asyncHandler(async (req,res)=>{
-
-    let result = await contentModel.find({content_type:"video"})
-    .populate("created_by","name profile_pic").sort({createdAt:-1})
-    .limit(5);
-
-    // after fetching the five latest videos, return them
-    res.status(200).json({data:result})
+    const {data} = await fetchLatestContentService("video");
+    // after fetching videos, return them
+    res.status(200).json({data})
 });
 
 // fetch latest articles for the homepage
 export const fetchLatestArticles = asyncHandler(async (req,res)=>{
-
-    let result = await contentModel.find({content_type:"article"})
-    .populate("created_by","name profile_pic").sort({createdAt:-1})
-    .limit(5);
-
-    // after fetching the five latest articles, return them
-    res.status(200).json({data:result})
+    const {data} = await fetchLatestContentService("article");
+    // after fetching latest articles, return them
+    res.status(200).json({data})
 });
 
 
@@ -116,11 +94,9 @@ export const fetchAllContent = asyncHandler(async (req,res)=>{
      const {skip} = req.query;
      const LIMIT = 10;
 
-     let results = await contentModel.find({}).skip(skip).limit(LIMIT)
-     .populate("created_by","name profile_pic");
-
-     res.status(200).json({data:results})
-})
+     let data = await fetchAllContentService(skip,LIMIT)
+     res.status(200).json({data})
+});
 
 // fetch the data for a single article
 export const fetchArticleData = asyncHandler(async (req,res)=>{
@@ -128,11 +104,8 @@ export const fetchArticleData = asyncHandler(async (req,res)=>{
     if(!articleId || articleId.length === 0){
         res.status(404).json({message:"Article Id not provided"})
     }
-    // ftech the article
-    let result = await contentModel.findById(articleId)
-    .populate("created_by","name profile_pic");
-    
-    res.status(200).json({data:result});
+    const {data} = await fetchArticleService(articleId)
+    res.status(200).json({data});
 });
 
 // fetch the data for a single video
@@ -142,8 +115,7 @@ export const fetchVideoData = asyncHandler(async (req,res)=>{
         res.status(404).json({message:"Video id not provided"})
     }
     // ftech the video
-    let result = await contentModel.findById(videoId)
-    .populate("created_by","name profile_pic");
+    let data = await fetchArticleService(videoId);
     
-    res.status(200).json({data:result});
+    res.status(200).json({data});
 })

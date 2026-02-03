@@ -1,5 +1,5 @@
-import userModel from "../models/userModel.js";
 import { customError } from "../utils/customError.js";
+import { authRepository } from "../repositories/authRepository.js";
 import { createAccessToken,createRefreshToken } from "../utils/tokenUtils.js";
 import bcrypt from "bcryptjs";
 
@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 export const registerUserService = async ({name,email,role,password}) =>{
 
     // check if this email already exists in db
-    let emailCheck = await userModel.findOne({email:email});
+    let emailCheck = await authRepository.findByEmail(email);
     if(emailCheck){
         throw new customError("This email is already taken",400)
     }
@@ -16,22 +16,22 @@ export const registerUserService = async ({name,email,role,password}) =>{
     const hashed_pwd = await bcrypt.hash(password,salt);
 
     // create a new user
-    let newUser = new userModel({
-        name:name,
+    let user = await authRepository.createUser({
+         name:name,
         role:role,
         password:hashed_pwd,
         email:email
     });
-
-    let user = await newUser.save();
 
     // the generate the tokens
     let refresh_token = createRefreshToken(user._id);
     let access_token = createAccessToken(user._id);
 
     // update the user and store the access token
-    user.refreshToken = refresh_token;
-    await user.save();
+    await authRepository.updateUserToken({
+        id:user._id,
+        new_token:refresh_token
+    });
 
     const data = user;
     // return the data
@@ -40,7 +40,7 @@ export const registerUserService = async ({name,email,role,password}) =>{
 
 export const loginUserService = async ({email,password}) =>{
     // fetch the user by email
-    let user = await userModel.findOne({email:email});
+    let user = await authRepository.findByEmail(email);
     if(!user) throw new customError("User does not exist",404);
 
     // if the user exists then compare the passwords
@@ -51,17 +51,18 @@ export const loginUserService = async ({email,password}) =>{
     let refresh_token = createRefreshToken(user._id);
     let access_token = createAccessToken(user._id);
     // update the user and store the access token
-    user.refreshToken = refresh_token;
-    await user.save();
+    await authRepository.updateUserToken({
+        id:user._id,
+        new_token:refresh_token
+    });
 
     const data = user;
-
     return {refresh_token,data,access_token}
 }
 
 export const newTokenService = async ({refresh_token}) =>{
  // find the user with that token
- let user = await userModel.findOne({refreshToken:refresh_token});
+ let user = await authRepository.findOne({refreshToken:refresh_token});
  if(!user) throw new customError("Invalid refresh token",404);
 
  // if the token is valid and user exists, decode the token
@@ -74,9 +75,10 @@ export const newTokenService = async ({refresh_token}) =>{
  let new_refresh_token = createRefreshToken(user_id);
  let new_access_token = createAccessToken(user_id);
  // update the user and store the refresh token
- user.refreshToken = new_refresh_token;
- await user.save();
+  await authRepository.updateUserToken({
+        id:user._id,
+        new_token:refresh_token
+    });
 
  return {new_refresh_token,new_access_token};
-
 }
