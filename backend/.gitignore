@@ -1,6 +1,8 @@
 # the files and folders to exclude
 
-node_modules
+node_modules/
+
+coverage/
 
 .env
 
