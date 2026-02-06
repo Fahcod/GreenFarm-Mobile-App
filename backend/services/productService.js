@@ -14,7 +14,7 @@ export const createProductService = async ({title,description,price,category,
     if(productCheck){ throw new customError("Product with this name already exists",400)}
     // fetch the store
     let store = await storeRepository.findById(storeId);
-    if(!store) throw new customError(400,"Store does not exist");
+    if(!store) throw new customError("Store does not exist",400);
     // then confirm store ownership
     if(store.owner._id.toString() !== user_id){
         throw new customError("This store is not yours",403);
@@ -54,6 +54,9 @@ export const deleteProductService = async ({storeId,productId,user_id}) =>{
     if(productData.store.owner.toString() !== user_id){
         throw new customError("You are not the owner of this product's store",403)
     }
+
+    // TODO: Add the logic to delete product files first
+
     //if they own the store, delete the product
     let deletedProduct = await productRepository.deleteOne(productId);
     if(deletedProduct.deletedCount === 0){

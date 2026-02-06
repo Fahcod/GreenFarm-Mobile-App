@@ -94,7 +94,7 @@ export const fetchAllContent = asyncHandler(async (req,res)=>{
      const {skip} = req.query;
      const LIMIT = 10;
 
-     let data = await fetchAllContentService(skip,LIMIT)
+     let {data} = await fetchAllContentService(skip,LIMIT)
      res.status(200).json({data})
 });
 

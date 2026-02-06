@@ -10,11 +10,8 @@ export const productRepository = {
     },
 
     createProduct: async (data) =>{
-        const product = await new productModel(data);
-        await product.save();
-        let populatedDoc = await 
-        product.populate("store","name store_profile description store_contacts");
-        return populatedDoc
+        const product = new productModel(data);
+        return product.save();
     },
 
     deleteOne: async (id) =>{

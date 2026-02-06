@@ -6,7 +6,7 @@ export const contentRepository = {
 
     findById: async (id)=>{
         return contentModel.findById(id)
-        .populate("created_by","name profile_pic")
+         .populate("created_by","name profile_pic")
     },
 
     findOne: async (filter)=>{
@@ -15,9 +15,9 @@ export const contentRepository = {
     },
 
     createContent: async (data)=>{
-        let content = await new contentModel(data);
-        let populatedContent = await content.populate("created_by","name profile_pic");
-        return populatedContent
+        const content = new contentModel(data);
+        await content.save();
+        return content.populate("created_by","name profile_pic")
     },
 
     findAll:async (skip,limit,filter) =>{

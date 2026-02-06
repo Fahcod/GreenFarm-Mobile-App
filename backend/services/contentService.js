@@ -12,12 +12,15 @@ export const createContentService = async ({
     user_id,
     content_files
    }) =>{
+
+   //two articles or videos should not have the same title
+   let titleCheck = await contentRepository.findOne({title,content_type});
+   if(titleCheck){throw new customError("Content already exists with this title",400)};
       
     // Upload the content files
     const {file_urls} = uploadLocaFiles(content_files);
-      
     // create the new content
-    let newContent = await contentRepository.createContent({
+    let data = await contentRepository.createContent({
         title:title,
         content_type:content_type,
         description:description,
@@ -25,7 +28,7 @@ export const createContentService = async ({
         files:[...file_urls]
     });
 
-    return {data:newContent}
+    return {data}
 }
 
 // fetch article data service
