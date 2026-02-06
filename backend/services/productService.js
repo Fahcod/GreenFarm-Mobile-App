@@ -2,6 +2,7 @@ import { customError } from "../utils/customError.js";
 import {uploadLocaFiles} from "../utils/fileUploader.js"
 import { productRepository } from "../repositories/productRepository.js";
 import { storeRepository } from "../repositories/storeRepository.js";
+import { deleteLocalFiles } from "../utils/deleteLocalFiles.js";
 
 // THE PRODUCT SERVICES
 
@@ -55,7 +56,9 @@ export const deleteProductService = async ({storeId,productId,user_id}) =>{
         throw new customError("You are not the owner of this product's store",403)
     }
 
-    // TODO: Add the logic to delete product files first
+    // delete product files first
+    const products_files = await productData.images;
+    deleteLocalFiles(products_files);
 
     //if they own the store, delete the product
     let deletedProduct = await productRepository.deleteOne(productId);

@@ -11,7 +11,8 @@ export const productRepository = {
 
     createProduct: async (data) =>{
         const product = new productModel(data);
-        return product.save();
+        await product.save();
+        return product.populate("store","name store_profile location description store_contacts dealing_in")
     },
 
     deleteOne: async (id) =>{
