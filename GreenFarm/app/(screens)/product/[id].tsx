@@ -104,8 +104,8 @@ const productDetails = () => {
     <View className='w-full flex mt-4 flex-row gap-2'>
     
     <TouchableOpacity className='w-[48%] px-3 py-3 rounded-md bg-green-600 gap-2 flex-row items-center'>
-    <FontAwesome6 size={16} color={'#fff'} name={'cart-shopping'} solid/>
-    <Text className='text-white font-poppins text-sm'>Buy this now</Text>
+    <FontAwesome6 size={16} color={'#fff'} name={'phone'} solid/>
+    <Text className='text-white font-poppins text-sm'>Contact seller</Text>
     </TouchableOpacity>
 
     <TouchableOpacity className='w-[48%] px-3 py-3 rounded-md bg-green-600 gap-2 flex-row items-center'>

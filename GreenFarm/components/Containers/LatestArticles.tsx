@@ -13,7 +13,7 @@ const LatestArticles = () => {
 
   return (
    <>
-   <View className='w-full my-5 flex flex-row items-center justify-between'>
+   <View className='w-full mt-5 flex flex-row items-center justify-between'>
    <Text className='font-poppins-bold text-lg'>Latest articles</Text>
    {/* the right see all button */}
    <TouchableOpacity className='flex flex-row items-center gap-2'>
@@ -24,13 +24,10 @@ const LatestArticles = () => {
    <FlatList
    data={latest_articles}
    renderItem={({item})=><ArticleCard {...item}/>}
-   horizontal={true}
    ListEmptyComponent={<EmptyLatestArticles/>}
-   contentContainerStyle={{gap:10,width:'100%'}}
    showsHorizontalScrollIndicator={false}
    bounces={false}
    keyExtractor={(item)=>item._id}
-   nestedScrollEnabled={true}
    />
    </>
   )

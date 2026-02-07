@@ -2,9 +2,45 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-nativ
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import { axiosInstance } from '@/API/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import * as SecureStore from "expo-secure-store"
+import { setUserData } from '@/slices/userSlice';
+import { loginValidationSchema } from '@/schemas/schemas';
+interface LoginData {
+  email:string,
+  password:string,
+}
 
 const login = () => {
+
+  const dispatch = useDispatch();
+  const submitData = async (values:LoginData)=>{
+    try {
+    
+      let response = await axiosInstance.post('/api/v1/auth/login',values);
+      if(response.status === 200){
+        // store access_token token and refresh token in expo secure store
+        await SecureStore.setItemAsync("access_token",response.data.access_token);
+        await SecureStore.setItemAsync("refresh_token",response.data.refresh_token);
+        // store the user role in async storage
+        await AsyncStorage.setItem("role",response.data.data.role);
+    
+        dispatch(setUserData(response.data.data));
+        router.push('/(business)/' as any)
+      }
+    
+      } catch (error:any) {
+        if(error.response){
+          alert(error.response.data.message);
+        }else if (error.request){
+          alert("Check your connection")
+        }
+      }
+  }
+  
   return (
     <SafeAreaView className='flex-1 bg-white'>
     <ScrollView contentContainerStyle={{
@@ -21,7 +57,8 @@ const login = () => {
 
     <Formik
     initialValues={{name:"",email:"",password:""}}
-    onSubmit={(values)=>{}}
+    validationSchema={loginValidationSchema}
+    onSubmit={(values)=>{submitData(values)}}
     >
     {({errors,handleBlur,handleSubmit,handleChange,touched,values})=>(
     <View className='w-full bg-white p-3 rounded-md shadow-md px-5 mt-7 flex flex-col'>
@@ -53,7 +90,7 @@ const login = () => {
     </View>
 
     <View>
-    <TouchableOpacity className='w-full px-3 flex flex-row justify-center items-center h-[45px] rounded-md bg-primary-300'>
+    <TouchableOpacity onPress={()=>handleSubmit()} className='w-full px-3 flex flex-row justify-center items-center h-[45px] rounded-md bg-primary-300'>
     <Text className='text-white text-lg'>Continue</Text>
     </TouchableOpacity>
     <Text className='text-sm text-[#454545] pt-1'>Don't have an account? 

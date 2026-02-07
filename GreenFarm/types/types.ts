@@ -1,4 +1,16 @@
 
+export type StoreForm = {
+    name:string,
+    description:string,
+    location:{
+      country:string,
+      city:string,
+      region:string
+    },
+  dealing_in:string[],
+  store_contacts:string[],
+  plan:string
+}
 
 export type User = {
     _id:string,

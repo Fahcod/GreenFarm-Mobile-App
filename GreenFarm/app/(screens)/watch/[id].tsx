@@ -83,7 +83,7 @@ const WatchPage = () => {
    {/* the video title, and desc cont */}
    <View className='flex-1'>
    <Text numberOfLines={2} className='font-poppins-bold text-[14px]'>{item.title}</Text>
-   <Text numberOfLines={2} className='text-[12px] font-poppins text-[#454545]'>{item.description}</Text>
+   <Text numberOfLines={2} className='text-[11px] font-poppins text-[#454545]'>{item.description}</Text>
    </View>
    </View>
    </>}

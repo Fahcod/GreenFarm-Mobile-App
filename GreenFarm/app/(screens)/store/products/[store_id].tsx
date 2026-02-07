@@ -3,10 +3,15 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Feather, FontAwesome6 } from '@expo/vector-icons';
-import { all_products } from '@/constants/data';
 import ProductCard from '@/components/Cards/ProductCard'
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import HorizontalRule from '@/components/HorizontalRule';
 
 const storeProducts = () => {
+
+  const store_products = useSelector((state:RootState)=>state.products.store_products);
+
   return (
     <SafeAreaView className='bg-white flex-1'>
     {/* the custom header */}
@@ -14,14 +19,14 @@ const storeProducts = () => {
     <TouchableOpacity onPress={()=>router.back()}>
     <FontAwesome6 size={20} name="arrow-left"/>
     </TouchableOpacity>
-    <Text className='font-bold text-lg'>All store store products</Text>
+    <Text className='font-bold text-lg'>Store products</Text>
     <TouchableOpacity>
     <FontAwesome6 size={20} name="ellipsis-vertical"/>
     </TouchableOpacity>
     </View>
     {/* end of the header */}
     <FlatList
-      data={all_products}
+      data={store_products}
     renderItem={({item})=><ProductCard {...item}/>}
     numColumns={2}
     showsVerticalScrollIndicator={false}
@@ -34,17 +39,15 @@ const storeProducts = () => {
     ListHeaderComponent={<>
     <View className='w-full'>
     {/* the search box */}
-    <View className='w-full mb-11 mt-3 px-3 bg-[#efefef] rounded-md flex gap-4 flex-row items-center'>
+    <View className='w-full mt-3 px-3 bg-input rounded-md flex gap-4 flex-row items-center'>
     <TouchableOpacity>
     <Feather size={18} color={'#454545'} name={'search'}/>
     </TouchableOpacity>
     <TextInput 
     className='flex-1'
     placeholder='search products'/>
-    <TouchableOpacity>
-    <FontAwesome6 size={18} color={'#454545'} name={'filter'}/>
-    </TouchableOpacity>
     </View>
+    <HorizontalRule mt={10} mb={10}/>
     </View>
     </>}
       />

@@ -114,7 +114,7 @@ const profile = () => {
     </TouchableOpacity>
 
     {/* option */}
-    <TouchableOpacity className='flex w-full p-2 rounded-md bg-[#f7f7f7] flex-row items-center justify-between'>
+    <TouchableOpacity className='flex w-full p-2 rounded-md bg-input flex-row items-center justify-between'>
     <View className='flex-row flex items-center gap-3'>
     <AntDesign name={'shop'} size={22}/>
     <Text className='font-semibold'>Manage farm info</Text>
@@ -123,7 +123,7 @@ const profile = () => {
     </TouchableOpacity>
 
     {/* option */}
-    <TouchableOpacity className='flex w-full p-2 rounded-md bg-[#f7f7f7] flex-row items-center justify-between'>
+    <TouchableOpacity className='flex w-full p-2 rounded-md bg-input flex-row items-center justify-between'>
     <View className='flex-row flex items-center gap-3'>
     <Feather name={'settings'} size={22}/>
     <Text className='font-semibold'>Settings</Text>
@@ -137,7 +137,7 @@ const profile = () => {
     <HorizontalRule mt={10}/>
     <View className='w-full mt-3 flex flex-col gap-4'>
 
-    <TouchableOpacity className='flex w-full p-2 rounded-md bg-[#f7f7f7] flex-row items-center gap-5'>
+    <TouchableOpacity className='flex w-full p-2 rounded-md bg-input flex-row items-center gap-5'>
     <Feather name={'log-out'} color={'#ef4444'} size={22}/>
     <Text className='font-semibold text-red-500'>Logout</Text>
     </TouchableOpacity>

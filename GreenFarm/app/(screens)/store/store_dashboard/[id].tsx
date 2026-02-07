@@ -41,7 +41,7 @@ const store_dashboard = () => {
     contentContainerStyle={{paddingHorizontal:10,paddingVertical:20}}
     renderItem={({item})=>(
     <View className='w-full bg-white mt-5 p-2 rounded-md shadow-md flex flex-row gap-3'>
-    <Image className='rounded-md' style={{width:80,height:80}} source={item.images[0]}/>
+    <Image className='rounded-md' style={{width:85,height:85}} source={item.images[0]}/>
     <View className='flex-1'>
     <Text numberOfLines={1} className='font-bold'>{item.title}</Text>
     <Text className='text-xs text-[#454545]' numberOfLines={1}>UGX {item.price}</Text>

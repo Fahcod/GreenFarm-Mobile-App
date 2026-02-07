@@ -20,6 +20,9 @@ module.exports = {
         input:'#f7f6f6',
         dark:{
           300:"#08111c"
+        },
+        accent:{
+          300:'#f6f4fb'
         }
       }
     },

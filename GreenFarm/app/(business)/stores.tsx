@@ -56,7 +56,7 @@ const stores = () => {
     </View>
     </>}
     renderItem={({item})=>(
-    <View className='w-full flex bg-white rounded-md flex-row gap-3 p-2 shadow-md mt-4'>
+    <View className='w-full flex border-solid border-gray-100 border bg-white rounded-md flex-row gap-3 p-2 mt-4'>
     <Image className='rounded-md' style={{width:80,height:80}} source={images.article_7}/>
     {/* the store details */}
     <View className='flex-1'>
