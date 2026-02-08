@@ -51,6 +51,7 @@ const add_store_contacts = () => {
     <TextInput
     placeholder='Add contact'
     value={contact}
+    keyboardType='numeric'
     onChangeText={(text)=>setContact(text)}
     className='flex-1 bg-white px-3 rounded-md border-solid border border-gray-200'
     />

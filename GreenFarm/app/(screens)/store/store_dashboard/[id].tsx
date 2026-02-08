@@ -1,22 +1,29 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { all_products } from '@/constants/data';
 import { images } from '@/constants/images';
 import { Store } from '@/types/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-
+import HorizontalRule from '@/components/HorizontalRule';
+import { AppContext } from '@/context/AppContext';
 
 const store_dashboard = () => {
 
   const {id} = useLocalSearchParams();
 
   // get the store data from redux
+   const {fetchStoreProducts} = useContext(AppContext);
+
+   useEffect(()=>{
+       fetchStoreProducts(id,0,5)
+     },[]);
+
   const business_stores:Store[] = useSelector((state:RootState)=>state.stores.business_stores);
   const selectedStore = business_stores.find((e)=>e._id === id);
+  const store_products = useSelector((state:RootState)=>state.products.store_products);
 
   return (
     <SafeAreaView className='bg-white flex-1'>
@@ -36,25 +43,35 @@ const store_dashboard = () => {
     {/* the end of the header */}
 
     <FlatList
-    data={all_products}
+    data={store_products}
     showsVerticalScrollIndicator={false}
     contentContainerStyle={{paddingHorizontal:10,paddingVertical:20}}
     renderItem={({item})=>(
     <View className='w-full bg-white mt-5 p-2 rounded-md shadow-md flex flex-row gap-3'>
-    <Image className='rounded-md' style={{width:85,height:85}} source={item.images[0]}/>
+    <Image className='rounded-md' style={{width:85,height:85}} source={{uri:item.images[0]}}/>
     <View className='flex-1'>
     <Text numberOfLines={1} className='font-bold'>{item.title}</Text>
-    <Text className='text-xs text-[#454545]' numberOfLines={1}>UGX {item.price}</Text>
+    <Text className='text-xs font-poppins-semibold text-[#454545]' numberOfLines={1}>UGX {item.price}</Text>
     {/* the store rating */}
-    <Text className='text-[#454545] text-sm' numberOfLines={1}>{item.description}</Text>
+    <View className='flex flex-row items-center gap-2'>
+    <View className='flex flex-row gap-1'>
+    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
+    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
+    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
+    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
+    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
+    </View>
+    <Text className='text-xs font-poppins'>(0 reviews)</Text>
+        </View>
     {/* the view store button */}
     <View className='w-full flex flex-row gap-3 pt-2'>
 
-    <TouchableOpacity onPress={()=>router.push(`/(screens)/store/store_dashboard/87656` as any)} className='bg-primary-300 px-2 py-0.5 rounded-md'>
+    <TouchableOpacity onPress={()=>{}} className='bg-primary-300 px-2 py-0.5 rounded-md'>
     <Text className='text-xs text-white'>View product</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity className='bg-[#efefef] px-2 py-0.5 rounded-md'>
+    <TouchableOpacity onPress={()=>router.push(`/(screens)/store/products/edit_product/${item._id}`)} 
+    className='bg-[#efefef] px-2 py-0.5 rounded-md'>
     <Text className='text-xs'>Edit product</Text>
     </TouchableOpacity>
 
@@ -112,6 +129,7 @@ const store_dashboard = () => {
     </View>
 
     </View>
+    <HorizontalRule mt={10}/>
 
     {/* the products list header */}
     <View className='w-full flex flex-row mt-6 items-center justify-between'>

@@ -3,7 +3,7 @@ import React from 'react'
 
 const AdvertsContainer = () => {
   return (
-    <View className='w-full rounded-md mt-4 h-[170px] bg-input'>
+    <View className='w-full mt-4 rounded-md h-[170px] bg-[#13121210]'>
    
     </View>
   )

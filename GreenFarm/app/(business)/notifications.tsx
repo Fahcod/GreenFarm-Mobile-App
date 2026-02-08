@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather, FontAwesome6 } from '@expo/vector-icons'
+import EmptyNotifications from '@/components/EmptyComponents/EmptyNotifications';
 
 const notifications = () => {
   return (
@@ -21,18 +22,20 @@ const notifications = () => {
     </View>
     {/* end of the header, the notifications list */}
     <FlatList
-    data={[1,2,3]}
-    contentContainerStyle={{paddingHorizontal:10,paddingVertical:15}}
+    data={[]}
+    contentContainerStyle={{paddingHorizontal:10,paddingVertical:10}}
+    ListEmptyComponent={<EmptyNotifications/>}
     renderItem={({item})=>(
-    <View className='w-full mt-5 p-3 bg-white shadow-md rounded-md'>
+    <View className='w-full mt-2 p-3 bg-white border-solid border border-gray-100 rounded-md'>
     {/* the header */}
     <View className='w-full flex flex-row items-center gap-4'>
-    <Text className='font-bold'>New message</Text>
-    <Text className='text-sm text-[#454545]'>12h ago</Text>
+    <Text className='font-poppins-bold'>New message</Text>
+    <Text className='text-sm font-poppins text-[#454545]'>12h ago</Text>
     </View>
     {/* the body */}
     <View>
-    <Text className='text-[#454545]' numberOfLines={3}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime aspernatur illo doloribus veritatis libero tenetur dolor, eaque consequatur dolorum eveniet aliquid ipsum iure commodi fuga itaque distinctio? Ab, magni in.</Text>
+    <Text className='text-[#454545] text-sm font-poppins'
+    numberOfLines={3}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime aspernatur illo doloribus veritatis libero tenetur dolor, eaque consequatur dolorum eveniet aliquid ipsum iure commodi fuga itaque distinctio? Ab, magni in.</Text>
     </View>
     </View>
     )}

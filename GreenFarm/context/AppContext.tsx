@@ -30,6 +30,16 @@ const AppContextProvider = (props:any)=>{
         if(suggested_success){dispatch(setSuggestedProducts(suggested_products))}
     }
 
+    // fetch the data for the seller's dashboard
+    const fetchSellerDashboardData = async ()=>{
+        const {data:seller_stores,
+            success:seller_success
+        } = await useFetch('/api/v1/store/business');
+        if(seller_success){
+            dispatch(setBusinessStores(seller_stores))
+        }
+    }
+
     // fetch the stores for the business owner
     const fetchBusinessSores = async ()=>{
         const {data,success} = await useFetch('/api/v1/store/business');
@@ -85,7 +95,8 @@ const AppContextProvider = (props:any)=>{
         fetchStoreData,
         fetchAllProducts,
         fetchStoreProducts,
-        fetchCategoryProducts
+        fetchCategoryProducts,
+        fetchSellerDashboardData
     };
 
     return(

@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather, FontAwesome6 } from '@expo/vector-icons'
 import { images } from '@/constants/images';
 import { router } from 'expo-router';
+import EmptyConversations from '@/components/EmptyComponents/EmptyConversations';
 
 const messaging = () => {
   return (
@@ -24,9 +25,10 @@ const messaging = () => {
     </View>
     {/* the messages list */}
     <FlatList
-    data={[1,2,3,4,5,6,7,8,8,9]}
+    data={[]}
     contentContainerStyle={{paddingHorizontal:10,paddingTop:5,paddingBottom:20}}
     showsVerticalScrollIndicator={false}
+    ListEmptyComponent={<EmptyConversations/>}
     ListHeaderComponent={<>
     <View className='w-full px-3 items-center flex flex-row mt-4 h-[40px] rounded-full bg-[#f7f7f7]'>
     <TextInput

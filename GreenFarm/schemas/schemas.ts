@@ -21,3 +21,11 @@ export const loginValidationSchema = yup.object().shape({
      password:yup.string().required('This field cannot be empty')
      .min(10,'Password is too short').max(200,'Password is too long')
 });
+
+// validate the edit product data
+export const editProductVlidationSchema = yup.object().shape({
+     new_title:yup.string().required("The title is required"),
+     new_category:yup.string().required("The category is required"),
+     new_price:yup.string().required("The price is required"),
+     new_description:yup.string().required("The description is required")
+});

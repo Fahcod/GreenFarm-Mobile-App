@@ -6,6 +6,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Formik } from 'formik';
 import * as ImagePicker from "expo-image-picker";
 import { axiosInstance } from '@/API/api';
+import HorizontalRule from '@/components/HorizontalRule';
 
 interface ProductData {
     title:string,
@@ -91,12 +92,12 @@ const add_product = () => {
     </TouchableOpacity>
     </View>
     {/* end of the header, the create product form */}
-    <ScrollView className='px-3' showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false}>
 
     {/* the product images */}
     <View className='w-full mt-5'>
-    <View className='w-full bg-[#fff] shadow-md rounded-md '>
-    <Text className='text font-sm text-primary-300 px-3 w-full py-1 bg-green-50'>Upload product images</Text>
+    <View className='w-full'>
+    <Text className='text font-poppins-semibold px-3 w-full py-1'>Upload product images</Text>
     {/* the images container */}
     <View className='w-full flex flex-row p-3 gap-4'>
 
@@ -105,8 +106,8 @@ const add_product = () => {
     <Image source={{uri:productFiles[0]}} style={{width:'48%',height:114,borderRadius:6}}/>
     :<Pressable onPress={()=>pickImage()} className='w-[48%] flex items-center justify-center rounded-md h-[114px] bg-[#efefef]'>
     <View className='flex flex-row gap-2 items-center'>
-    <FontAwesome6 size={13} color={'#454545'} name={'images'}/>
-    <Text className='text-xs text-[#454545]'>Upload image</Text>
+    <FontAwesome6 size={14} color={'#454545'} name={'images'}/>
+    <Text className='text-sm text-[#454545]'>Upload image</Text>
     </View>
     </Pressable>}
 
@@ -115,37 +116,38 @@ const add_product = () => {
     <Image source={{uri:productFiles[1]}} style={{width:'48%',height:114,borderRadius:6}}/>
     :<Pressable onPress={()=>pickImage()} className='w-[48%] flex items-center justify-center rounded-md h-[114px] bg-[#efefef]'>
     <View className='flex flex-row gap-2 items-center'>
-    <FontAwesome6 size={13} color={'#454545'} name={'images'}/>
-    <Text className='text-xs text-[#454545]'>Upload image</Text>
+    <FontAwesome6 size={14} color={'#454545'} name={'images'}/>
+    <Text className='text-sm text-[#454545]'>Upload image</Text>
     </View>
     </Pressable>}
 
     </View>
     </View>
     </View>
+    <HorizontalRule mt={10}/>
     
     <Formik
     initialValues={{title:"",price:"",description:"",category:""}}
     onSubmit={(values)=>uploadProduct(values)}>
    {({values,errors,handleBlur,handleSubmit,handleChange,touched})=>(
-    <View className='w-full mb-6 bg-white rounded-md mt-3 shadow-md flex pb-5 p-3 flex-col gap-8'>
+    <View className='w-full px-3 mb-6 rounded-md mt-6 flex pb-5 flex-col gap-8'>
 
     <View>
-    <Text className='text-[#454545]'>Product name:</Text>
+    <Text className='text-[#303030] font-poppins'>Product name:</Text>
     <TextInput
     value={values.title}
     onChangeText={handleChange('title')}
     onBlur={handleBlur('title')}
-    placeholder='type the product name...'
-    className='w-full mt-1 h-[40px] text-sm px-3 border-solid border border-gray-200 rounded-md'
+    placeholder='Product name...'
+    className='w-full mt-1 h-[45px] font-poppins px-2 border-solid border border-gray-200 rounded-md'
     />
     </View>
 
     <View>
-    <Text className='text-[#454545]'>Product price:</Text>
+    <Text className='text-[#303030] font-poppins'>Product price:</Text>
     <TextInput
-    placeholder='type the product price'
-    className='w-full mt-1 border-solid border border-gray-200 h-[40px] text-sm px-3 rounded-md'
+    placeholder='Product price'
+    className='w-full mt-1 border-solid font-poppins border border-gray-200 h-[45px] text-sm px-3 rounded-md'
     keyboardType='numeric'
     onChangeText={handleChange('price')}
     onBlur={handleBlur('price')}
@@ -154,33 +156,35 @@ const add_product = () => {
     </View>
 
     <View>
-    <Text className='text-[#454545]'>Product category:</Text>
+    <Text className='text-[#454545] font-poppins'>Product category:</Text>
     <TextInput
-    placeholder='select the product category'
+    placeholder='Product category'
     value={values.category}
     onChangeText={handleChange('category')}
     onBlur={handleBlur('category')}
-    className='w-full mt-1 h-[45px] border-solid border border-gray-200 text-sm px-3 rounded-md'
+    className='w-full mt-1 h-[45px] font-poppins border-solid border border-gray-200 text-sm px-3 rounded-md'
     />
     </View>
 
     <View>
-    <Text className='text-[#454545]'>Product description:</Text>
+    <Text className='text-[#454545] font-poppins'>Product description:</Text>
     <TextInput
     multiline={true}
     onChangeText={handleChange('description')}
     onBlur={handleBlur('description')}
     value={values.description}
     placeholder='type the product description'
-    className='w-full mt-1 h-[175px] px-3 text-sm rounded-md border border-solid border-gray-200'
+    className='w-full mt-1 h-[175px] font-poppins px-3 text-sm rounded-md border border-solid border-gray-200'
     numberOfLines={15}
     style={{textAlignVertical:'top'}}
     />
     </View>
 
     {/* the add product button */}
-    <TouchableOpacity onPress={()=>handleSubmit()} className='w-full h-[45px] justify-center flex items-center flex-row bg-primary-300 rounded-md'>
-    <Text className='text-white'>Add product</Text>
+    <TouchableOpacity 
+    onPress={()=>handleSubmit()} 
+    className='w-full h-[45px] justify-center flex items-center flex-row bg-primary-300 rounded-md'>
+    <Text className='text-white font-poppins'>Add product</Text>
     </TouchableOpacity>
 
     </View>
