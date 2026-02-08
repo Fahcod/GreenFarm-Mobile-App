@@ -115,7 +115,7 @@ export const fetchVideoData = asyncHandler(async (req,res)=>{
         res.status(404).json({message:"Video id not provided"})
     }
     // ftech the video
-    let data = await fetchArticleService(videoId);
+    let {data} = await fetchArticleService(videoId);
     
     res.status(200).json({data});
 })

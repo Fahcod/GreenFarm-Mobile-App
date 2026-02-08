@@ -1,21 +1,24 @@
 import storeModel from "../models/storeModel.js"
 import { customError } from "../utils/customError.js";
 import productModel from "../models/productModel.js";
+import { storeRepository } from "../repositories/storeRepository.js";
+import { uploadLocaFiles } from "../utils/fileUploader.js";
+import {deleteLocalFiles} from "../utils/deleteLocalFiles.js"
 
 // THE STORE SERIVCES
 
 export const createStoreService = async ({name,dealing_in,location,
-    description,store_contacts,user_id}) =>{
+    description,store_contacts,user_id,plan}) =>{
 
     // get the current date
     const currentDate = new Date();
 
     // check if the store name is not already taken
-    let storeCheck = await storeModel.findOne({name:name});
+    let storeCheck = await storeRepository.findOne({name:name});
     if(storeCheck) throw new customError("This store name is already taken",400);
     
     // create the store
-    let newStore = new storeModel({
+    const data = await storeRepository.createStore({
         owner:user_id,
         name:name,
         dealing_in:dealing_in,
@@ -23,38 +26,37 @@ export const createStoreService = async ({name,dealing_in,location,
         description:description,
         store_contacts:store_contacts,
         subscription:{
-            plan:"free",
+            plan:plan,
             start_date:currentDate,
             end_date:new Date(currentDate).setMonth(currentDate.getMonth() + 1),
             is_active:true,
         }
     });
-
-    await newStore.save();
-    let data = await newStore.populate("owner", "profile_pic username")
-    //TODO: Add payment logic for the created stores later
-
+   // return the store data after creation
     return {data};
 }
 
-export const updateStoreProfileService = async ({user_id,storeId}) =>{
+export const updateStoreProfileService = async ({user_id,storeId,file}) =>{
     //check if the file exists in the request
-    if(!req.file) throw new customError(404,"File not found");
+    if(!file) throw new customError("File not found",404);
     
      //fetch the store and confirm ownership
-     let store = await storeModel.findById(storeId);
-     if(!store) throw new customError(404,"Store does not exist");
+     let store = await storeRepository.findById(storeId);
+     if(!store) throw new customError("Store does not exist",404);
     
-     if(store.owner.toString() !== user_id){
-        throw new customError(400,"This store is not yours")
+     if(store.owner._id.toString() !== user_id){
+        throw new customError("This store is not yours",400)
      }
     // after confirmation of store ownership, get the image url
-    const file_url = 'http://';
-    if(!file_url) throw new customError("Failed to upload file",500);
-    
-    // update the store in db
-    store.store_profile = file_url;
-    await store.save();
+    const {file_urls} = uploadLocaFiles([file]);
+    if(file_urls.length === 0) throw new customError("Failed to upload file",500);
+
+    // delete the old store profile image
+    if(store.store_profile){deleteLocalFiles([store.store_profile])}
+
+    // update the store_profile in db
+    await storeRepository.updateProfile({_id:store._id,profile_img:file_urls[0]});
+    const new_store_profile = file_urls[0];
 
     return {new_store_profile}
 }
@@ -80,4 +82,18 @@ export const deleteStoreService = async ({storeId,user_id}) =>{
     let deletedStore = await storeModel.deleteOne({_id:storeId});
     if(deletedStore.deletedCount === 0) throw new customError(500,"Error deleting store");
 
+}
+
+// the service to fetch a single store by id
+export const fetchStoreService = async (storeId) =>{
+    const store = await storeRepository.findById(storeId);
+    if(!store) throw new customError("Store does not exist",404);
+    // return the store data
+    return {data:store}
+}
+
+// the service to fetch all stores
+export const fetchAllStoreService = async () =>{
+    const data = await storeRepository.findAll();
+    return {data}
 }

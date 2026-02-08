@@ -35,7 +35,7 @@ export const createContentService = async ({
 export const fetchArticleService = async (id)=>{
     // ftech the article
     let data = await contentRepository.findById(id);
-    if(!result){throw new customError("Article not found",404)}
+    if(!data){throw new customError("Article not found",404)}
     return {data}
 }
 

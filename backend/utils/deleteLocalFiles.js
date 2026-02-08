@@ -14,7 +14,7 @@ export const deleteLocalFiles = (files_array=[])=>{
      let filename = files_array[i].split("/")[(len - 1)];
      fs.unlink(`uploads/${filename}`,(err)=>{
         if(err) throw new customError(`Failed to delete files`,500);
-        console.log(`uploads/${filename} as deleted successfully`)
+        console.log(`uploads/${filename} was deleted successfully`)
      })
    }
 }

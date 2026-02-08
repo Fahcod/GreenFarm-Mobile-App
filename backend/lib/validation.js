@@ -30,13 +30,14 @@ export const validateStoreData = [
     .isLength({max:60}).withMessage("The store name is too long"),
     check('description').trim().notEmpty().withMessage("The store description is required")
     .isLength({min:50}).withMessage("The store description is too short")
-    .isLength({max:200}).withMessage("This store description is too long"),
+    .isLength({max:400}).withMessage("This store description is too long"),
     check('location').notEmpty().withMessage("Store location is required")
     .isObject({strict:true}).withMessage("Location should be an object"),
     check('dealing_in').notEmpty().withMessage("Please tell us what your store deals in")
     .isArray({min:1,max:20}).withMessage("Dealing in should be an array"),
     check('store_contacts').notEmpty().withMessage("Store contacts are required").isArray()
-    .withMessage("Store contacts should be an array")
+    .withMessage("Store contacts should be an array"),
+    check("plan").notEmpty().withMessage("Payment plan is required")
 ];
 
 // validate product data
