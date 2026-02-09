@@ -1,5 +1,5 @@
 import { createAdvertService, deleteAdvertService, 
-fetchAdvertService } from "../services/advertService";
+fetchAdvertService } from "../services/advertService.js";
 import {asyncHandler} from "../utils/asyncHandler.js";
 
 // create an advert

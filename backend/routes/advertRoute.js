@@ -2,7 +2,7 @@ import express from "express";
 import {protectRoute} from "../middleware/authMiddleware.js";
 import {restrictTo} from "../middleware/restrictionMiddleware.js"
 import { createAdvert, deleteAdvert, fetchAdverts } from "../controllers/advertController.js";
-import {uploader} from "../utils/fileUploader.js"
+import {uploader} from "../utils/multer.js"
 
 const advertRouter = express.Router();
 
