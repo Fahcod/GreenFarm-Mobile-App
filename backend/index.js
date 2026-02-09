@@ -15,6 +15,7 @@ import reviewRouter from "./routes/reviewRoute.js";
 import questionRouter from "./routes/questionRoute.js";
 import answerRouter from "./routes/answerRoute.js";
 import adminRouter from "./routes/adminRoute.js";
+import advertRouter from "./routes/advertRoute.js";
 
 // load the env variables
 dotenv.config();
@@ -56,7 +57,8 @@ app.use('/api/v1/content',contentRouter);
 app.use('/api/v1/review',reviewRouter);
 app.use('/api/v1/question',questionRouter);
 app.use('/api/v1/answer',answerRouter);
-app.use('/api/v1/admin',adminRouter)
+app.use('/api/v1/admin',adminRouter);
+app.use('/api/v1/advert',advertRouter)
 app.use('/api/v1/assets',express.static("uploads"));
 
 // the global error handler
