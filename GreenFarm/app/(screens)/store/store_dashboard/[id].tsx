@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { images } from '@/constants/images';
 import { Store } from '@/types/types';
@@ -9,6 +9,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import HorizontalRule from '@/components/HorizontalRule';
 import { AppContext } from '@/context/AppContext';
+import SellerProductCard from '@/components/Cards/SellerProductCard';
+import StoreReviews from '@/components/Containers/StoreReviews';
+import EmptyStores from '@/components/EmptyComponents/EmptyStores';
 
 const store_dashboard = () => {
 
@@ -26,7 +29,7 @@ const store_dashboard = () => {
   const store_products = useSelector((state:RootState)=>state.products.store_products);
 
   return (
-    <SafeAreaView className='bg-white flex-1'>
+    <SafeAreaView className='bg-input flex-1'>
     {/* the custom header */}
     <View className='w-full h-[60px] p-3 flex flex-row items-center justify-between z-[1000] bg-white border-solid border-b border-gray-100'>
     <TouchableOpacity onPress={()=>router.back()}>
@@ -46,47 +49,17 @@ const store_dashboard = () => {
     data={store_products}
     showsVerticalScrollIndicator={false}
     contentContainerStyle={{paddingHorizontal:10,paddingVertical:20}}
-    renderItem={({item})=>(
-    <View className='w-full bg-white mt-5 p-2 rounded-md shadow-md flex flex-row gap-3'>
-    <Image className='rounded-md' style={{width:85,height:85}} source={{uri:item.images[0]}}/>
-    <View className='flex-1'>
-    <Text numberOfLines={1} className='font-bold'>{item.title}</Text>
-    <Text className='text-xs font-poppins-semibold text-[#454545]' numberOfLines={1}>UGX {item.price}</Text>
-    {/* the store rating */}
-    <View className='flex flex-row items-center gap-2'>
-    <View className='flex flex-row gap-1'>
-    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
-    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
-    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
-    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
-    <FontAwesome6 color={'#f0bc13'} size={10} name={'star'} solid/>
-    </View>
-    <Text className='text-xs font-poppins'>(0 reviews)</Text>
-        </View>
-    {/* the view store button */}
-    <View className='w-full flex flex-row gap-3 pt-2'>
-
-    <TouchableOpacity onPress={()=>{}} className='bg-primary-300 px-2 py-0.5 rounded-md'>
-    <Text className='text-xs text-white'>View product</Text>
-    </TouchableOpacity>
-
-    <TouchableOpacity onPress={()=>router.push(`/(screens)/store/products/edit_product/${item._id}`)} 
-    className='bg-[#efefef] px-2 py-0.5 rounded-md'>
-    <Text className='text-xs'>Edit product</Text>
-    </TouchableOpacity>
-
-    </View>
-    </View>
-    </View>
-    )}
+    renderItem={({item})=><SellerProductCard {...item}/>}
+    ListEmptyComponent={<EmptyStores/>}
     ListHeaderComponent={<>
+
     {/* the store dashboard */}
     <View className='w-full bg-white p-3 border-solid border border-gray-100 rounded-md'>
     {/* the store information */}
     <View className='w-full flex flex-row gap-3'>
     <Image source={images.machiney_item} style={{width:65,height:65,borderRadius:6}}/>
     <View className='flex-1'>
-    <Text className='font-poppins-bold'>{selectedStore?.name}</Text>
+    <Text numberOfLines={1} className='font-poppins-bold text-sm'>{selectedStore?.name}</Text>
     <Text className='text-xs leading-none font-poppins text-[#454545]' numberOfLines={1}>
         {selectedStore?.dealing_in.map((item)=>{
           return item + ", "
@@ -103,46 +76,83 @@ const store_dashboard = () => {
     </View>
     <Text className='text-[#454545] text-sm'>({selectedStore?.reviewsCount} reviews)</Text>
     </View>
+    {/* the store location */}
+    <View className='flex flex-row gap-1 items-center'>
+    <FontAwesome6 color={'#454545'} size={13} name={'location-dot'}/>
+    <Text className='font-poppins text-[#454545] text-xs'>
+    {selectedStore?.location.country},{selectedStore?.location.city}</Text>
+    </View>
 
     </View>
     </View>
-    
     </View>
     {/* the store stats cards */}
     <View className='w-full flex flex-wrap flex-row gap-3 mt-4'>
+
     {/* the total products */}
-    <View className='bg-green-50 p-3 w-[48%] h-16 rounded-md shadow-md'>
-    <Text className='font-semibold'>67</Text>
-    <View className='flex flex-row items-center gap-2'>
-    <FontAwesome6 size={14} color={'#16a34a'} name={'shop'}/>
-    <Text className='font-semibold text-sm text-primary-300'>Total proucts</Text>
+    <View className='bg-white px-3 pt-2 w-[48%] rounded-md'>
+    <View className='w-full flex flex-row justify-between'>
+    <Text className='font-poppins-semibold'>Products</Text>
+    <View className='w-8 flex items-center justify-center h-8 rounded-full bg-primary-300'>
+    <FontAwesome6 color={'#fff'} size={15} name={'shop'}/>
     </View>
     </View>
-
-    {/* the store rating */}
-    <View className='bg-orange-50 p-3 w-[48%] h-16 rounded-md shadow-md'>
-    <Text className='font-semibold'>237k</Text>
-    <View className='flex flex-row items-center gap-2'>
-    <FontAwesome6 size={14} color={'#f0bc13'} name={'star'} solid/>
-    <Text className='font-semibold text-sm text-[#f0bc13]'>Total reviews</Text>
-    </View>
+    <Text className='font-poppins-bold'>56</Text>
     </View>
 
+    {/* the total products */}
+    <View className='bg-white px-3 pt-2 w-[48%] rounded-md'>
+    <View className='w-full flex flex-row justify-between'>
+    <Text className='font-poppins-semibold'>Reviews</Text>
+    <View className='w-8 flex items-center justify-center h-8 rounded-full bg-[#eebe22]'>
+    <FontAwesome6 color={'#fff'} size={15} name={'star'} solid/>
     </View>
-    <HorizontalRule mt={10}/>
+    </View>
+    <Text className='font-poppins-bold'>230k</Text>
+    </View>
+
+    </View>
+
+    <View className='w-full mt-4 flex flex-row gap-2'>
+    
+    <TouchableOpacity 
+    onPress={()=>router.push(`/(screens)/store/products/add_product/${selectedStore?._id}`)}
+    className='w-[48%] px-3 py-2 flex flex-row items-center gap-2 bg-blue-500 rounded-md'>
+    <FontAwesome6 color={'#fff'} size={17} name={"cart-shopping"} solid/>
+    <Text className='font-poppins text-sm text-white'>Add product</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity className='w-[48%] px-3 py-2 flex flex-row items-center gap-2 bg-primary-300 rounded-md'>
+    <FontAwesome6 color={'#fff'} size={17} name={"shop"} solid/>
+    <Text className='font-poppins text-sm text-white'>Edit store</Text>
+    </TouchableOpacity>
+
+    </View>
+    <HorizontalRule mt={15} bg={'#e5e7eb'}/>
 
     {/* the products list header */}
-    <View className='w-full flex flex-row mt-6 items-center justify-between'>
+    <View className='w-full flex flex-row mt-3 items-center justify-between'>
     <Text className='font-bold text-lg'>Store products</Text>
-    <TouchableOpacity onPress={()=>router.push(`/(screens)/store/products/add_product/${selectedStore?._id}`)} 
-    className='flex flex-row items-center gap-2'>
-    <FontAwesome6 size={18} color={'#3b82f6'} name={'plus'}/>
-    <Text className='text-blue-500 font-semibold'>Add a product</Text>
+    <TouchableOpacity className='flex flex-row items-center gap-2'>
+    <Text className='text-blue-500 font-poppins'>See more</Text>
+    <FontAwesome6 size={16} color={'#3b82f6'} name={'chevron-right'}/>
     </TouchableOpacity>
     </View>
     </>}
+    ListFooterComponent={
+    <>
+    <View className='w-full flex mt-3 flex-row items-center justify-between'>
+    <Text className='font-poppins-bold text-md'>What customers say</Text>
+    <TouchableOpacity onPress={()=>router.push(`/(screens)/store/reviews/87654677`)} 
+    className='flex flex-row items-center gap-2'>
+    <Text className='text-green-600 font-poppins'>See all</Text>
+    <FontAwesome6 size={15} color={'#16a34a'} name={'chevron-right'}/>
+    </TouchableOpacity>
+    </View>
+    {/* the summarized reviews */}
+    <StoreReviews data={[1,2,3]}/>
+    </>}
     />
-
     </SafeAreaView>
   )
 }

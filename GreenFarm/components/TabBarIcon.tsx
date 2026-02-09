@@ -14,15 +14,15 @@ const TabBarIcon = ({icon,from,focused,title,size}:IconProps)=>{
   if(from === 'ant'){
     return (
       <View className='flex w-full pt-2.5 flex-col items-center'>
-      <AntDesign name={icon} size={size}/>
-      <Text className='text-xs'>{title}</Text>
+      <AntDesign name={icon} color={focused?'#16a34a':''} size={size}/>
+      <Text className={`text-xs ${focused?'text-[#16a34a]':''}`}>{title}</Text>
       </View>
     )
   }else if(from === 'feat'){
     return(
        <View className='flex w-full pt-2.5 flex-col items-center'>
-      <Feather name={icon} size={size}/>
-      <Text className='text-xs'>{title}</Text>
+      <Feather name={icon} color={focused?'#16a34a':''} size={size}/>
+      <Text className={`text-xs ${focused?'text-[#16a34a]':''}`}>{title}</Text>
       </View>
     )
   }

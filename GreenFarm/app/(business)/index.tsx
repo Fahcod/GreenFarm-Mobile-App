@@ -47,19 +47,19 @@ const index = () => {
             </TouchableOpacity>
 
             </View>
-            <HorizontalRule mt={10} bg={'#f0f1f3'}/>
+            <HorizontalRule mt={10} bg={'#e5e7eb'}/>
             </>);
 
         case "banner":
            return (<>
            <AdvertsContainer/>
-           <HorizontalRule mt={10} bg={'#f0f1f3'}/>
+           <HorizontalRule mt={10} bg={'#e5e7eb'}/>
         </>);
 
         case "mystores":
           return(<>
             <SellerStoresContainer/>
-            <HorizontalRule mt={10} bg={'#f0f1f3'}/>
+            <HorizontalRule mt={10} bg={'#e5e7eb'}/>
           </>)
 
           default:

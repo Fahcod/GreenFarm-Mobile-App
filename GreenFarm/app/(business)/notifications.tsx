@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather, FontAwesome6 } from '@expo/vector-icons'
-import EmptyNotifications from '@/components/EmptyComponents/EmptyNotifications';
+import { Feather, FontAwesome6 } from '@expo/vector-icons';
+import EmptyReviews from '@/components/EmptyComponents/EmptyReviews';
 
 const notifications = () => {
   return (
@@ -24,7 +24,8 @@ const notifications = () => {
     <FlatList
     data={[]}
     contentContainerStyle={{paddingHorizontal:10,paddingVertical:10}}
-    ListEmptyComponent={<EmptyNotifications/>}
+    showsVerticalScrollIndicator={false}
+    ListEmptyComponent={<EmptyReviews/>}
     renderItem={({item})=>(
     <View className='w-full mt-2 p-3 bg-white border-solid border border-gray-100 rounded-md'>
     {/* the header */}
