@@ -16,6 +16,8 @@ import questionRouter from "./routes/questionRoute.js";
 import answerRouter from "./routes/answerRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import advertRouter from "./routes/advertRoute.js";
+import sellerRouter from "./routes/sellerRoute.js";
+import { allowedOrigins } from "./lib/allowedOrigins.js";
 
 // load the env variables
 dotenv.config();
@@ -27,7 +29,7 @@ app.use(express.json());
 app.use(cors({
     credentials:true,
     methods:["POST","PUT","DELETE","GET"],
-    origin:["http://localhost:5173","exp://192.168.1.198:8081"],
+    origin:allowedOrigins,
 }));
 app.use(helmet());
 app.use(cookieParser())
@@ -58,7 +60,8 @@ app.use('/api/v1/review',reviewRouter);
 app.use('/api/v1/question',questionRouter);
 app.use('/api/v1/answer',answerRouter);
 app.use('/api/v1/admin',adminRouter);
-app.use('/api/v1/advert',advertRouter)
+app.use('/api/v1/advert',advertRouter);
+app.use('/api/v1/seller',sellerRouter)
 app.use('/api/v1/assets',express.static("uploads"));
 
 // the global error handler
