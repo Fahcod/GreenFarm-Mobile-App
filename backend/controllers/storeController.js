@@ -42,7 +42,7 @@ export const updateStoreProfile = asyncHandler(async (req,res)=>{
   const {user_id} = req.user;
   const {storeId} = req.params;
   if(!storeId) return res.status(404).json({message:"Store id not found"});
-  if(req.file) return res.status(404).json({message:"File not found"})
+  if(!req.file) return res.status(404).json({message:"File not found"})
   //call the update the store profile service 
   const {new_store_profile} = await updateStoreProfileService({
     file:req.file,

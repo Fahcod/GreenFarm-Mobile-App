@@ -1,5 +1,4 @@
 import fs from "fs";
-import { customError } from "./customError.js";
 
 /********************************************************
  * This helper function deletes local files from the server
@@ -13,7 +12,6 @@ export const deleteLocalFiles = (files_array=[])=>{
    for(let i = 0; i < len; i++){
      let filename = files_array[i].split("/")[(len - 1)];
      fs.unlink(`uploads/${filename}`,(err)=>{
-        if(err) throw new customError(`Failed to delete files`,500);
         console.log(`uploads/${filename} was deleted successfully`)
      })
    }
