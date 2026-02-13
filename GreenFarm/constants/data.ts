@@ -264,3 +264,27 @@ export const answers = [
         answer:'I think you should go and buy Argona pesticede because it works better on such issues'
     },
 ]
+
+export const all_messages = [
+
+    {
+        _id:'oiuyttdfxcvbbnb',
+        message:"Hi, how are you there?",
+        from:"you"
+    },
+    {
+        _id:'oiu098fxcvbbnb',
+        message:"Hi, i am fine please how can i help you?",
+        from:"other"
+    },
+    {
+        _id:'oiuyt09861cvbbnb',
+        message:"There is a very nice product i saw that came from your store",
+        from:"you"
+    },
+    {
+        _id:'oiu098fxcvbbnb',
+        message:"Can you please let me know?",
+        from:"other"
+    },
+]

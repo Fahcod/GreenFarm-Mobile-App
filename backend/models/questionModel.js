@@ -5,7 +5,7 @@ const questionSchema = new mongoose.Schema({
     question:{type:String,required:true},
     answered:{type:Boolean,default:false},
     answerCount:{type:Number,default:0},
-    files:{type:[{type:String}],default:[]}
+    files:[{type:String}],
 },{timestamps:true,minimize:false});
 
 

@@ -8,7 +8,7 @@ export const restrictTo = (roles_array) =>{
     // if the user role is not conained in the roles_array, they are not allowed to access
     //the route and its functionaity
     if(!roles_array.includes(req.user.role)){
-       return res.status(400).json({message:"You are not allowed to access this functionality"})
+       return res.status(403).json({message:"You are not allowed to access this functionality"})
     }
     // else, call the next middleware or route handler
     next()

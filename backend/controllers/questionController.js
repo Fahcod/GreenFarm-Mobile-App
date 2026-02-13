@@ -1,6 +1,5 @@
 import questionModel from "../models/questionModel.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { uploadSaveFile } from "../utils/fileUploader.js";
 
 
 // the endpoint for asking a question
@@ -84,7 +83,7 @@ export const fetchAllQuestions = asyncHandler(async (req,res)=>{
     const {after} = req.query;
 
     let query = {}
-    if(after){query._id = {$gt:after};}
+    if(after){query._id = {$gt:after}}
 
     const LIMIT = 10;
     // below is the query filter

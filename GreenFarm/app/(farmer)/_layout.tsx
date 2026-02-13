@@ -1,33 +1,6 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { AntDesign, Feather} from '@expo/vector-icons';
-
-interface IconProps {
-  icon:any,
-  title:string,
-  from:string,
-  focused:boolean,
-  size:number
-}
-
-const TabBarIcon = ({icon,from,focused,title,size}:IconProps)=>{
-  if(from === 'ant'){
-    return (
-      <View className='flex w-full pt-2.5 flex-col items-center'>
-      <AntDesign name={icon} size={size}/>
-      <Text className='text-xs'>{title}</Text>
-      </View>
-    )
-  }else if(from === 'feat'){
-    return(
-       <View className='flex w-full pt-2.5 flex-col items-center'>
-      <Feather name={icon} size={size}/>
-      <Text className='text-xs'>{title}</Text>
-      </View>
-    )
-  }
-}
+import TabBarIcon from '@/components/TabBarIcon';
 
 const _layout = () => {
   return (
@@ -45,7 +18,7 @@ const _layout = () => {
     name="index"
     options={{
       tabBarIcon:({focused})=>(
-        <TabBarIcon 
+        <TabBarIcon
         icon={'home'} 
         title={'Home'} 
         from={'ant'} 
@@ -61,7 +34,7 @@ const _layout = () => {
       tabBarIcon:({focused})=>(
         <TabBarIcon 
         icon={'question-circle'} 
-        title={'Ask'} 
+        title={'Q&A'} 
         from={'ant'} 
         focused={focused} size={22}
         />

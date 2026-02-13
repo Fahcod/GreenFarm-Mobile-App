@@ -7,7 +7,7 @@ const contentSchema = new mongoose.Schema({
     description:{type:String,required:true},
     created_by:{type:mongoose.Schema.Types.ObjectId,ref:"users",required:true},
     viewsCount:{type:Number,default:0},
-    files:{type:[{type:String}]}
+    files:[{type:String}]
 },{timestamps:true})
 
 // the content model

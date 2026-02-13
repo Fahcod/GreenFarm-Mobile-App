@@ -1,38 +1,29 @@
 import storeModel from "../models/storeModel.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { validationResult } from "express-validator";
-import { uploadSaveFile } from "../utils/fileUploader.js";
+import { createStoreService, deleteStoreService,
+     fetchAllStoreService,
+     fetchStoreService,
+     updateStoreProfileService } from "../services/storeService.js";
 
 // create a store
 export const createStore = asyncHandler(async (req,res)=>{
     // get the form data
-    const {name,dealing_in,location,description,store_contacts} = req.body;
-    
+    const {name,dealing_in,location,description,store_contacts,plan} = req.body;
     const {user_id} = req.user;
+
     const errors = validationResult(req);
     if(!errors.isEmpty()){
+        console.log(errors.array())
         return res.status(422).json({message:"Please fill in the fields correctly",
-            errors:errors.mapped()})
+            errors:errors.array()})
     }
-    // check if the store name is not already taken
-    let storeCheck = await storeModel.findOne({name:name});
-    if(storeCheck){
-        return res.status(400).json({message:"This store name is already taken"})
-    }
-    // create the store
-    let newStore = new storeModel({
-        owner:user_id,
-        name:name,
-        dealing_in:dealing_in,
-        location:location,
-        description:description,
-        store_contacts:store_contacts
-    });
-    await newStore.save();
-    let populated_store = await newStore.populate("owner", "profile_pic username")
-    //TODO: Add payment logic for the created stores later
+    
+    // call the create store service to create the store
+    const {data} = await createStoreService({name,dealing_in,location,
+        description,store_contacts,user_id,plan})
 
-    res.status(201).json({message:"Store created successfully",data:populated_store});
+    res.status(201).json({message:"Store created successfully",data});
 });
 
 //fetch store details
@@ -40,12 +31,9 @@ export const fetchStore = asyncHandler(async (req,res)=>{
     // get the store id
     const {storeId} = req.params;
     if(!storeId) return res.status(404).json({message:"Store id not found"})
-    let result = await storeModel.findById(storeId).populate("owner","profile_pic");
-    if(!result){
-        return res.status(404).json({message:"Store does not exist"})
-    }
+    const {data} = await fetchStoreService(storeId);
     // else if the store exists, return the data
-    res.status(200).json({data:result})
+    res.status(200).json({data})
 });
 
 // update the store profile or the store logo
@@ -54,28 +42,14 @@ export const updateStoreProfile = asyncHandler(async (req,res)=>{
   const {user_id} = req.user;
   const {storeId} = req.params;
   if(!storeId) return res.status(404).json({message:"Store id not found"});
-  
-  //check if the file exists in the request
-  if(!req.file) return res.status(404).json({message:"File not found"});
-
- //fetch the store and confirm ownership
- let store = await storeModel.findById(storeId);
- if(!store) return res.status(404).json({message:"Store does not exist"});
-
- if(store.owner.toString() !== user_id){
-    return res.status(400).json({message:"This store is not yours"})
- }
-// after confirmation of store ownership, get the image url
-const file_url = uploadSaveFile(req.file.filename);
-if(!file_url) res.status(500).json({message:"Failed to upload file"});
-
-// update the store in db
-store.store_profile = file_url;
-await store.save();
-
-res.status(200).json({
-    message:"Store profile updated sucessfully",
-    new_store_profile:file_url})
+  if(!req.file) return res.status(404).json({message:"File not found"})
+  //call the update the store profile service 
+  const {new_store_profile} = await updateStoreProfileService({
+    file:req.file,
+    storeId,
+    user_id
+   });
+  res.status(200).json({message:"Store profile updated sucessfully",new_store_profile})
 });
 
 
@@ -85,19 +59,37 @@ export const deleteStore = asyncHandler(async (req,res)=>{
   const {user_id} = req.user;
   const {storeId} = req.params;
   if(!storeId) return res.status(404).json({message:"Store id not found"});
+  
+  // call the delete store service to delete the store together with all its products
+  await deleteStoreService({user_id,storeId});
 
- //fetch the store and confirm ownership
- let store = await storeModel.findById(storeId);
- if(!store) return res.status(404).json({message:"Store does not exist"});
-
- if(store.owner.toString() !== user_id){
-    return res.status(400).json({message:"This store is not yours"})
- }
-//  after owership confirmation, delete the store
-let deletedStore = await storeModel.deleteOne({_id:storeId});
-if(!deletedStore.deletedCount > 0){
-return res.status(500).json({message:"Error deleting store"})
-}
 // but if everything goes right, return the response
 res.status(200).json({message:"Store deleted successfully"})
 });
+
+
+// fetch all stores
+export const fetchAllStores = asyncHandler(async (req,res)=>{
+    const {data} = await fetchAllStoreService();
+    res.status(200).json({data})
+});
+
+// fetch the newly created stores
+export const fetchLatestStores = asyncHandler(async (req,res)=>{
+
+   //fetch and return the 5 latest stores
+   let results = await storeModel.find({}).limit(5).sort({createdAt:-1})
+   .populate("owner","name profile_pic email");
+
+   res.status(200).json({data:results});
+});
+
+// fetch business's stores
+export const fetchBusinessStores = asyncHandler(async (req,res)=>{
+    // get the id of the business owner
+    const {user_id} = req.user;
+
+    let results = await storeModel.find({owner:user_id}).limit(3)
+    .sort({createdAt:-1});
+    res.status(200).json({data:results})
+})

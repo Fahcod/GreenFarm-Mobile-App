@@ -4,11 +4,11 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MainHeader from '@/components/MainHeader';
 import { Feather, FontAwesome6 } from '@expo/vector-icons';
-import { questions } from '@/constants/data';
 import HorizontalRule from '@/components/HorizontalRule';
 import { images } from '@/constants/images';
 import { router } from 'expo-router';
 import {Formik} from "formik";
+import EmptyVideos from '@/components/EmptyComponents/EmptyVideos';
 
 const ask = () => {
 
@@ -19,7 +19,8 @@ const ask = () => {
     <MainHeader/>
 
     <FlatList
-    data={questions}
+    data={[]}
+    ListEmptyComponent={<EmptyVideos/>}
     contentContainerStyle={{paddingHorizontal:10,paddingVertical:15}}
     showsVerticalScrollIndicator={false}
     renderItem={({item})=>(
@@ -29,8 +30,8 @@ const ask = () => {
       </View>
       {/* the question and details container */}
       <View className='w-full'>
-      <Text numberOfLines={2} className='font-bold text-[#303030]'>{item.question}</Text>
-      <Text numberOfLines={3} className='text-sm pt-1 text-[#454545]'>{item.description}</Text>
+      <Text numberOfLines={2} className='font-bold text-[#303030]'>{item}</Text>
+      <Text numberOfLines={3} className='text-sm pt-1 text-[#454545]'>{item}</Text>
       </View>
       <View className='w-full flex flex-row items-center justify-between'>
       {/* the asked by data */}

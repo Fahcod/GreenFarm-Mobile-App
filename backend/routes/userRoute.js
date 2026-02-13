@@ -1,12 +1,14 @@
 import express from "express";
-import { validateNewName } from "../lib/validation.js";
 import { protectRoute } from "../middleware/authMiddleware.js";
-import { fetchUser, updateUserName } from "../controllers/userController.js";
+import { fetchUser, fetchWeeklyNewUsers, updateProfilePic } from "../controllers/userController.js";
+import {restrictTo} from "../middleware/restrictionMiddleware.js";
+import {uploader} from "../utils/multer.js"
 
 
 const userRouter = express.Router();
 
-userRouter.put('/new-name',protectRoute,validateNewName,updateUserName);
-userRouter.get('/fetch',protectRoute,fetchUser)
+userRouter.get('/fetch',protectRoute,fetchUser);
+userRouter.get('/weekly',protectRoute,restrictTo(["admin"]),fetchWeeklyNewUsers);
+userRouter.put('/update-pic',protectRoute,uploader.single("image"),updateProfilePic)
 
 export default userRouter;

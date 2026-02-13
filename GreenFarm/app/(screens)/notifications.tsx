@@ -9,7 +9,7 @@ const notifications = () => {
   return (
     <SafeAreaView className='bg-white flex-1'>
     {/* the custom header */}
-    <View className='w-full h-[60px] z-[1000] justify-between bg-white shadow p-3 flex flex-row items-center'>
+    <View className='w-full h-[60px] z-[1000] justify-between bg-white border-solid border-b border-gray-100 p-3 flex flex-row items-center'>
     <TouchableOpacity onPress={()=>router.back()}>
     <FontAwesome6 size={22} name={'arrow-left'}/>
     </TouchableOpacity>
@@ -23,6 +23,7 @@ const notifications = () => {
     <FlatList
     data={all_notifications}
     contentContainerStyle={{paddingHorizontal:12,paddingBottom:30}}
+    showsVerticalScrollIndicator={false}
     renderItem={({item})=>(
     <View></View>
     )}

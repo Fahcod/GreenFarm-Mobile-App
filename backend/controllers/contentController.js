@@ -1,61 +1,65 @@
-import contentModel from "../models/contentModel.js";
+import { createContentService, deleteContentService, 
+fetchAllContentService, fetchAllSpecificService, fetchArticleService, 
+fetchLatestContentService} from "../services/contentService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { validationResult } from "express-validator";
 
 
 // create an article or video content
 export const createContent = asyncHandler(async (req,res)=>{
-// get the form data
-const {title,content_type,description} = req.body;
-const {user_id} = req.user;
-// check if the file exists in the req
-// if(!req.file) return res.status(404).json({message:"File not found!"})
+    let content_files;
+    // get the form data
+    const {title,content_type,description} = req.body;
+    const {user_id} = req.user;
+    if(!req.files) return res.status(404).json({message:"Files not found!"});
+    if(content_type === "article"){
+        content_files = req.files.images;
+    }else if (content_type === "video"){
+        content_files = [...req.files.videos,...req.files.images]
+    }
+    
+    // validate the data
+    if(title.trim().length === 0 || description.trim().length === 0){
+        return res.status(422).json({message:"Either title or descriptions is empty!"})
+    }
+    // make sure that the data is of normal length
+    const contentData = {title,description}
+    switch(contentData){
+     
+    case contentData.title.length > 10:
+        return res.status(422).json({message:"The title is too short"});
+    
+    case contentData.title.length > 90:
+        return res.status(422).json({message:"The title is too long"});
 
-const errors = validationResult(req);
-if(!errors.isEmpty()){
-    return res.status(422).json({
-        message:"Please fill in all the fields correctly",
-        errors:errors.mapped()
-    })
+    case contentData.description.length < 10:
+        return res.status(422).json({message:"The description is too short"});
+    
+    case contentData.description.length > 1000:
+        return res.status(422).json({message:"The description is too long"});
 }
-// TODO: Add file upload logic
-  
-// create the new content
-let newContent = new contentModel({
-    title:title,
-    content_type:content_type,
-    description:description,
-    created_by:user_id,
-    files:['http://']
+// call the create content service
+const {data} = await createContentService({
+    title,
+    content_type,
+    description,
+    user_id,
+    content_files
 });
-await newContent.save();
-let populatedContent = await newContent.populate("created_by","name profile_pic");
-res.status(201).json({data:populatedContent});
+
+res.status(201).json({data:data,message:"Created successfully"});
 
 });
 
 //delete content either ( article or video )
 export const deleteContent = asyncHandler(async (req,res)=>{
-//get the data
-const {user_id} = req.user;
-const {contentId} = req.params;
-// check if the content id exists
-if(!contentId) return res.status(404).json({message:"Content id not found!"});
-// fetch the content object, and confirm ownership before deletion
-let contentData = await contentModel.findById(contentId);
-if(!contentData) return res.status(404).json({message:"Content not found!"});
+   //get the data
+   const {user_id} = req.user;
+   const {contentId} = req.params;
+   // check if the content id exists
+   if(!contentId) return res.status(404).json({message:"Content id not found!"});
+   await deleteContentService(contentId,user_id);
 
-if(contentData.created_by.toString() !== user_id){
-return res.status(403).json({message:"You don't own this content please"})
-}
-//TODO: Add the logic to delete the content files first
-
-// if okay, then delete the content
-let deletedContent = await contentModel.deleteOne({_id:contentId});
-if(!deletedContent.deletedCount > 0){
-    return res.status(500).json({message:"Failed to delete the content!"})
-}
-res.status(200).json({message:"Content deleted successfully"})
+   res.status(200).json({message:"Content deleted successfully"})
 });
 
 
@@ -63,22 +67,55 @@ res.status(200).json({message:"Content deleted successfully"})
 export const fetchAllArticles = asyncHandler(async (req,res)=>{
     const {skip} = req.query;
     const LIMIT = 10;
-
-    let query ={content_type:"article"};
-    // add pagination in order to allow the data to be fetched in small chuncks
-    let result = await contentModel.find(query).skip(skip).limit(LIMIT).sort({_id:1});
+    // fetch the content of type `article`
+    const {data} = await fetchAllSpecificService(skip,LIMIT,"article");
     
-    res.status(200).json({data:result})
+    res.status(200).json({data})
 });
 
-// fetch latest videos
+
+// fetch latest videos for the homepage
 export const fetchLatestVideos = asyncHandler(async (req,res)=>{
-    const {skip} = req.query;
-    const LIMIT = 10;
-
-    let query ={content_type:"video"};
-    // add pagination in order to allow the data to be fetched in small chuncks
-    let result = await contentModel.find(query).skip(skip).limit(LIMIT).sort({_id:-1});
-    
-    res.status(200).json({data:result})
+    const {data} = await fetchLatestContentService("video");
+    // after fetching videos, return them
+    res.status(200).json({data})
 });
+
+// fetch latest articles for the homepage
+export const fetchLatestArticles = asyncHandler(async (req,res)=>{
+    const {data} = await fetchLatestContentService("article");
+    // after fetching latest articles, return them
+    res.status(200).json({data})
+});
+
+
+// fetch all content including videos and articles
+export const fetchAllContent = asyncHandler(async (req,res)=>{
+     const {skip} = req.query;
+     const LIMIT = 10;
+
+     let {data} = await fetchAllContentService(skip,LIMIT)
+     res.status(200).json({data})
+});
+
+// fetch the data for a single article
+export const fetchArticleData = asyncHandler(async (req,res)=>{
+    const {articleId} = req.params;
+    if(!articleId || articleId.length === 0){
+        res.status(404).json({message:"Article Id not provided"})
+    }
+    const {data} = await fetchArticleService(articleId)
+    res.status(200).json({data});
+});
+
+// fetch the data for a single video
+export const fetchVideoData = asyncHandler(async (req,res)=>{
+    const {videoId} = req.params;
+    if(!videoId || videoId.length === 0){
+        res.status(404).json({message:"Video id not provided"})
+    }
+    // ftech the video
+    let {data} = await fetchArticleService(videoId);
+    
+    res.status(200).json({data});
+})
