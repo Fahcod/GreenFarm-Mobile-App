@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, SectionList, Pressable } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '@/constants/images';
 import { Feather, FontAwesome6} from '@expo/vector-icons';
@@ -9,6 +9,8 @@ import HorizontalRule from '@/components/HorizontalRule';
 import AdvertsContainer from '@/components/Containers/AdvertsContainer';
 import SellerStoresContainer from '@/components/Containers/SellerStoresContainer';
 import { AppContext } from '@/context/AppContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const index = () => {
 
@@ -67,6 +69,9 @@ const index = () => {
       }
   }
 
+  // FETCH SOME DATA FROM THE STORE
+  const userData = useSelector((state:RootState)=>state.user.data)
+
   return (
     <SafeAreaView edges={["top","left","right"]} className='bg-input flex-1'>
     {/* the header */}
@@ -75,7 +80,7 @@ const index = () => {
     <Pressable onPress={()=>router.push('/(screens)/business_profile')} className='flex flex-row gap-3'>
     <Image className='rounded-full' source={images.profile_pic} style={{width:34,height:34}}/>
     <View>
-    <Text className='font-bold'>Hi, Fahad</Text>
+    <Text className='font-bold'>Hi, {userData?.name.split(' ')[0]}</Text>
     <Text className='text-[#454545] text-xs'>You are welcome</Text>
     </View>
     </Pressable>

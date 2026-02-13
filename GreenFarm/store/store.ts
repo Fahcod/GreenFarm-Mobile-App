@@ -3,7 +3,8 @@ import userSliceReducer from "../slices/userSlice";
 import contentSliceReducer from "../slices/contentSlice";
 import storeSliceReducer from "../slices/StoreSlice";
 import productSliceReducer from "../slices/productSlice";
-import formSliceReducer from "../slices/formSlice"
+import formSliceReducer from "../slices/formSlice";
+import sellerSliceReducer from "../slices/sellerSlice"
 
 export const store = configureStore({
     reducer:{
@@ -11,7 +12,8 @@ export const store = configureStore({
         content:contentSliceReducer,
         stores:storeSliceReducer,
         products:productSliceReducer,
-        forms:formSliceReducer
+        forms:formSliceReducer,
+        seller:sellerSliceReducer
     }
 });
 

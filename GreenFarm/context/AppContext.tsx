@@ -5,14 +5,16 @@ import type { AppDispatch } from "../store/store";
 import { useFetch } from "@/hooks/useFetch";
 import { setLatestArticles, setLatestVideos } from "@/slices/contentSlice";
 import { setBusinessStores, setStoreData, setSuggestedStores } from "@/slices/StoreSlice";
-import { setAllProducts, setCategoryProducts, setProductData, setStoreProducts, setSuggestedProducts } from "@/slices/productSlice";
+import { setAllProducts, setCategoryProducts, setProductData, setStoreProducts, 
+setSuggestedProducts } from "@/slices/productSlice";
+import { setDashboardTotals, setStoreTotals } from "@/slices/sellerSlice";
 
 export const AppContext = createContext<any>({});
 
 const AppContextProvider = (props:any)=>{
     const dispatch = useDispatch<AppDispatch>();
 
-    // fetch the data for the homepage
+    // fetch the data for the farmer's homepage
     const fetchHomePageData = async () =>{
         const {data:latest_articles,
             success:article_success} = await useFetch("/api/v1/content/latest-articles");
@@ -35,9 +37,13 @@ const AppContextProvider = (props:any)=>{
         const {data:seller_stores,
             success:seller_success
         } = await useFetch('/api/v1/store/business');
-        if(seller_success){
-            dispatch(setBusinessStores(seller_stores))
-        }
+
+        const {data:totals_data,
+            success:totals_success
+        } = await useFetch('/api/v1/seller/totals')
+
+        if(seller_success){dispatch(setBusinessStores(seller_stores))};
+        if(totals_success){dispatch(setDashboardTotals(totals_data))}
     }
 
     // fetch the stores for the business owner
@@ -82,6 +88,13 @@ const AppContextProvider = (props:any)=>{
         if(success){dispatch(setAllProducts(data))}
     }
 
+    //fetch the totals for the store dashboard
+    const fetchStoreTotals = async (storeId:string) =>{
+        const {data,success} = await useFetch(
+        `/api/v1/seller/store-totals/${storeId}`);
+        if(success){dispatch(setStoreTotals(data))}
+    }
+
     // call the APIs
     useEffect(()=>{
     dispatch(fetchUser());
@@ -96,7 +109,8 @@ const AppContextProvider = (props:any)=>{
         fetchAllProducts,
         fetchStoreProducts,
         fetchCategoryProducts,
-        fetchSellerDashboardData
+        fetchSellerDashboardData,
+        fetchStoreTotals
     };
 
     return(

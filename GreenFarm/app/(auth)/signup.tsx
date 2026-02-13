@@ -8,6 +8,7 @@ import { axiosInstance } from '@/API/api'
 import * as SecureStore from "expo-secure-store"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setUserData } from '@/slices/userSlice';
+import { Feather, FontAwesome6 } from '@expo/vector-icons';
 
 interface SignupData {
   name:string,
@@ -63,7 +64,7 @@ const signup = () => {
     }}>
     {/* This is the register page for the users */}
     <View className='mt-12'>
-    <Text className='font-bold text-center text-lg'>Register here</Text>
+    <Text className='font-poppins-bold text-center text-lg'>Register here</Text>
     </View>
 
     <Formik
@@ -71,48 +72,58 @@ const signup = () => {
     onSubmit={(values)=>{signupUser(values)}}
     >
     {({errors,handleBlur,handleSubmit,handleChange,touched,values})=>(
-    <View className='w-full bg-white p-3 rounded-md shadow-md px-5 mt-7 flex flex-col'>
+    <View className='w-full rounded-md px-5 mt-7 flex flex-col'>
 
     <View>
-    <Text>Name</Text>
+    <Text className='font-poppins'>Name</Text>
+    <View className='flex h-[45px] rounded-full items-center bg-input flex-row gap-2 px-3'>
+    <FontAwesome6 color={'#454545'} name={'user'} size={18}/>
     <TextInput
     placeholder='Your name'
-    className='w-full h-[45px] bg-input mt-2 px-3 rounded-md'
+    className='w-full px-3 rounded-md'
     value={values.name}
     onChangeText={handleChange('name')}
     onBlur={handleBlur('name')}
     />
+    </View>
     <Text></Text>
     </View>
 
     <View>
-    <Text>Email</Text>
+    <Text className='font-poppins'>Email</Text>
+    <View className='flex h-[45px] rounded-full items-center bg-input flex-row gap-2 px-3'>
+    <FontAwesome6 color={'#454545'} name={'envelope'} size={18}/>
     <TextInput
     placeholder='Your email'
-    className='w-full h-[45px] bg-input mt-2 px-3 rounded-md'
+    className='w-full mt-2 px-3 rounded-md'
     value={values.email}
     onChangeText={handleChange('email')}
     onBlur={handleBlur('email')}
     keyboardType='email-address'
     />
+    </View>
     <Text></Text>
     </View>
 
     <View>
-    <Text>Password</Text>
+    <Text className='font-poppins'>Password</Text>
+    <View className='flex h-[45px] rounded-full items-center bg-input flex-row gap-2 px-3'>
+    <Feather color={'#454545'} name={'lock'} size={19}/>
     <TextInput
     placeholder='Your password'
-    className='w-full h-[45px] bg-input mt-2 px-3 rounded-md'
+    className='w-full mt-2 px-3 rounded-md'
     value={values.password}
     onChangeText={handleChange('password')}
     onBlur={handleBlur('password')}
     secureTextEntry={true}
     />
+    </View>
     <Text></Text>
     </View>
 
     <View>
-    <TouchableOpacity onPress={()=>handleSubmit()} className='w-full px-3 flex flex-row justify-center items-center h-[45px] rounded-md bg-primary-300'>
+    <TouchableOpacity onPress={()=>handleSubmit()} 
+    className='w-full px-3 flex flex-row justify-center items-center h-[45px] rounded-full bg-primary-300'>
     <Text className='text-white text-lg'>Continue</Text>
     </TouchableOpacity>
     <Text className='text-sm text-[#454545] pt-2'>Aleady have an account? 

@@ -1,7 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { Store } from '@/types/types'
-import { images } from '@/constants/images'
 import { FontAwesome6 } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { TouchableOpacity } from 'react-native'
@@ -9,7 +8,8 @@ import { TouchableOpacity } from 'react-native'
 const SellerStoreCard = (item:Store) => {
   return (
     <View className='w-full flex border-solid border-gray-100 border bg-white rounded-md flex-row gap-3 p-2 mt-4'>
-    <Image className='rounded-md' style={{width:80,height:80}} source={images.article_7}/>
+    <Image className='rounded-md bg-[#efefef]' style={{width:80,height:80}} 
+    source={{uri:item.store_profile}}/>
     {/* the store details */}
     <View className='flex-1'>
     <Text numberOfLines={1} className='font-poppins-bold text-md'>{item.name}</Text>

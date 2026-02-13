@@ -64,7 +64,8 @@ const storeDetails = () => {
       ListHeaderComponent={<>
       {/* the store profile */}
       <View className='w-full'>
-      <Image style={{width:'100%',height:180}} source={images.tractor_5}/>
+      <Image style={{width:'100%',height:180}} 
+      source={{uri:store_data?.store_profile}}/>
       {/* below is the container for the store details */}
       <View className='bg-white px-5 py-2 mt-[-30px] w-full rounded-tl-3xl rounded-tr-3xl'>
       <View>

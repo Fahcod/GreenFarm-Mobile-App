@@ -1,9 +1,8 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { images } from '@/constants/images';
 import { Store } from '@/types/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -18,15 +17,17 @@ const store_dashboard = () => {
   const {id} = useLocalSearchParams();
 
   // get the store data from redux
-   const {fetchStoreProducts} = useContext(AppContext);
+   const {fetchStoreProducts,fetchStoreTotals} = useContext(AppContext);
 
    useEffect(()=>{
-       fetchStoreProducts(id,0,5)
+       fetchStoreProducts(id,0,5);
+       fetchStoreTotals(id)
      },[]);
 
   const business_stores:Store[] = useSelector((state:RootState)=>state.stores.business_stores);
   const selectedStore = business_stores.find((e)=>e._id === id);
   const store_products = useSelector((state:RootState)=>state.products.store_products);
+  const store_totals = useSelector((state:RootState)=>state.seller);
 
   return (
     <SafeAreaView className='bg-input flex-1'>
@@ -57,7 +58,7 @@ const store_dashboard = () => {
     <View className='w-full bg-white p-3 border-solid border border-gray-100 rounded-md'>
     {/* the store information */}
     <View className='w-full flex flex-row gap-3'>
-    <Image source={images.machiney_item} style={{width:65,height:65,borderRadius:6}}/>
+    <Image className='bg-[#efefef]' source={{uri:selectedStore?.store_profile}} style={{width:65,height:65,borderRadius:6}}/>
     <View className='flex-1'>
     <Text numberOfLines={1} className='font-poppins-bold text-sm'>{selectedStore?.name}</Text>
     <Text className='text-xs leading-none font-poppins text-[#454545]' numberOfLines={1}>
@@ -97,7 +98,7 @@ const store_dashboard = () => {
     <FontAwesome6 color={'#fff'} size={15} name={'shop'}/>
     </View>
     </View>
-    <Text className='font-poppins-bold'>56</Text>
+    <Text className='font-poppins-bold'>{store_totals.store_products_total}</Text>
     </View>
 
     {/* the total products */}
@@ -108,7 +109,7 @@ const store_dashboard = () => {
     <FontAwesome6 color={'#fff'} size={15} name={'star'} solid/>
     </View>
     </View>
-    <Text className='font-poppins-bold'>230k</Text>
+    <Text className='font-poppins-bold'>{store_totals.store_reviews_total}</Text>
     </View>
 
     </View>
@@ -122,7 +123,9 @@ const store_dashboard = () => {
     <Text className='font-poppins text-sm text-white'>Add product</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity className='w-[48%] px-3 py-2 flex flex-row items-center gap-2 bg-primary-300 rounded-md'>
+    <TouchableOpacity 
+     onPress={()=>router.push(`/(screens)/store/edit_store/${selectedStore?._id}`)}
+    className='w-[48%] px-3 py-2 flex flex-row items-center gap-2 bg-primary-300 rounded-md'>
     <FontAwesome6 color={'#fff'} size={17} name={"shop"} solid/>
     <Text className='font-poppins text-sm text-white'>Edit store</Text>
     </TouchableOpacity>

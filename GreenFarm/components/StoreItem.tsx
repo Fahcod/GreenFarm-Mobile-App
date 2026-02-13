@@ -3,13 +3,13 @@ import React from 'react'
 import { FontAwesome6 } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { Store } from '@/types/types'
-import { images } from '@/constants/images'
 
 const StoreItem = (props:Store) => {
   return (
    <View className='w-full border-solid border-gray-100 p-1 border rounded-md mt-4 flex flex-row items-center'>
     <View className='flex flex-row gap-3'>
-    <Image className='rounded-lg' source={images.article_2} style={{width:75,height:75}}/>
+    <Image className='rounded-lg bg-[#efefef]' 
+    source={{uri:props.store_profile}} style={{width:75,height:75}}/>
     {/* the details */}
     <View className='flex-1'>
     <Text numberOfLines={1} className='font-poppins-bold text-[13px] text-[#303030]'>{props.name}</Text>
